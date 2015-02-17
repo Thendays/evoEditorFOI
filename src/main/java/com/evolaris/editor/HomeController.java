@@ -40,7 +40,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	private ApplicationContext context;
 	
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
 		
 		context = new ClassPathXmlApplicationContext("gallery.xml");
