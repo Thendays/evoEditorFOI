@@ -35,7 +35,7 @@
     </header>
     <div id="main">
     
-    	<div id="left" class="gallery" data-id="<c:out value="${galleryID}"/>" >
+    	<div id="left" class="gallery" data-id="<c:out value="${galleryID}"/>" onclick="selectPage.call(this, event)">
 
         </div>
         
