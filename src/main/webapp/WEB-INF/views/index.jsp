@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div id="center_main_info">
+            <div id="center_main_info" style="margin-top: 90px;">
             	<div class="first_half half table">
                 	<table>
                     	<tr>
@@ -77,7 +77,7 @@
                 </div>
                
                 <div class="second_half half">
-                	<div class="half_text">
+                	<div class="half_text" style="float: left;">
                 		Resource<br/>
                     </div>
                     <select name="resource" id="resource">
@@ -90,7 +90,7 @@
                     <div class="half_text">
                     	Attribute<br/>
                     </div>
-                    <input class="short" type="text" name="attr" placeholder="Attribute">
+                    <input class="short" type="text" name="attr" placeholder="Attribute" style="width: 100%;"><br/>
                     <button id="cloud_2"><img src="resources/images/cloud.png" width="13px"/></button>
                     <button id="folder_2"><img src="resources/images/folder.png" width="13px"/></button>
                     <button id="add_attr"><img src="resources/images/save.png" width="13px"/></button>
