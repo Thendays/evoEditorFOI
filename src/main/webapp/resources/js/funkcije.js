@@ -74,28 +74,46 @@ function deletePage() {
 	});
 }
 
-function movePage() {
-	var uuid = $(this).closest(".first, .second").attr("id");
-	if (this.oldvalue > this.value) {
-		for (var i = (this.oldvalue - this.value); i>0; i--) {
-			$.ajax({
-				url: 'pageup.html',
-				data: {pageid: uuid},
-				success: function(data) {
-					refreshPages();
-				}
-			});
+function movePage(e, direction) {
+	var uuid = $(e).closest(".first, .second").attr("id");
+	if (direction === null) {
+		if (e.oldvalue > e.value) {
+			for (var i = (e.oldvalue - e.value); i>0; i--) {
+				$.ajax({
+					url: 'pageup.html',
+					data: {pageid: uuid},
+					success: function(data) {
+						refreshPages();
+					}
+				});
+			}
+		} else if (e.value > e.oldvalue) {
+			for (var i = (e.value - e.oldvalue); i>0; i--) {
+				$.ajax({
+					url: 'pagedown.html',
+					data: {pageid: uuid},
+					success: function(data) {
+						refreshPages();
+					}
+				});
+			}
 		}
-	} else if (this.value > this.oldvalue) {
-		for (var i = (this.value - this.oldvalue); i>0; i--) {
-			$.ajax({
-				url: 'pagedown.html',
-				data: {pageid: uuid},
-				success: function(data) {
-					refreshPages();
-				}
-			});
-		}
+	} else if(direction === "up") {
+		$.ajax({
+			url: 'pageup.html',
+			data: {pageid: uuid},
+			success: function(data) {
+				refreshPages();
+			}
+		});
+	} else if(direction === "down") {
+		$.ajax({
+			url: 'pagedown.html',
+			data: {pageid: uuid},
+			success: function(data) {
+				refreshPages();
+			}
+		});
 	}
 }
 
@@ -145,8 +163,20 @@ function selectPage(e) {
 
 function attachEvents() {
 	$('.first, .second').each(function(i) { 
-		$.each($(this).find(":button"), function() {
+		$.each($(this).find(":button.delete_1"), function() {
 			$(this).on("click", null, this, deletePage);
+			});
+		
+		$.each($(this).find(":button.up_1"), function() {
+			$(this).click(function() {
+				movePage(this, "up");
+				});
+			});
+		
+		$.each($(this).find(":button.down_1"), function() {
+			$(this).click(function() {
+				movePage(this, "down");
+				});
 			});
 		
 		$.each($(this).find(":input"), function() {
@@ -154,7 +184,9 @@ function attachEvents() {
 				this.oldvalue = this.value;
 			});
 			
-			$(this).on("change", null, this, movePage);
+			$(this).change(function() {
+				movePage(this, null);
+			});
 		});
 	});
 }

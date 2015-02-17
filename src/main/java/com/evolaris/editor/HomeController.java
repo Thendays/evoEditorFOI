@@ -1,12 +1,19 @@
 package com.evolaris.editor;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.evolaris.editor.model.JSONObj;
 import com.evolaris.editor.model.RawGallery;
+import com.evolaris.editor.model.RawPage;
 import com.evolaris.editor.model.interfaces.IGallery;
 import com.evolaris.editor.model.interfaces.IPage;
 
@@ -32,7 +40,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	private ApplicationContext context;
 	
-	@RequestMapping(value = {"/index", "/"}, method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
 		
 		context = new ClassPathXmlApplicationContext("gallery.xml");
@@ -60,7 +68,11 @@ public class HomeController {
 									"<button class=\\\"delete_1\\\">" +
 										"<img src=\\\"resources/images/delete.png\\\" width=\\\"20px\\\"/>" +
 									"</button>" + 
-								"</div>" + 
+								"</div>" +
+								"<div class=\\\"move_slide\\\">" +
+									"<button class=\\\"up_1\\\"><img src=\\\"resources/images/up.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button><br/>" +
+									"<button class=\\\"down_1\\\"><img src=\\\"resources/images/down.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button>" +
+								"</div>" +
 								"<div class=\\\"slide_image\\\">" +
 									"<img src=\\\"resources/images/Placeholder.png\\\"/>" +
 									"<div class=\\\"slide_number\\\">" +
@@ -110,9 +122,13 @@ public class HomeController {
 		sPages += 
 				"<div class=\\\"second\\\" id=\\\"" + String.valueOf(subpage.getId()) + "\\\" onclick=\\\"selectPage.call(this, event)\\\" data-parentid=\\\"" + subpage.getParentID() + "\\\">" +
 						"<div class=\\\"delete_slide\\\">" +
-							"<button id=\\\"delete_2\\\">" + 
+							"<button class=\\\"delete_1\\\">" + 
 								"<img src=\\\"resources/images/delete.png\\\" width=\\\"20px\\\"/>" + 
 							"</button>" +
+						"</div>" +
+						"<div class=\\\"move_slide\\\">" +
+							"<button class=\\\"up_1\\\"><img src=\\\"resources/images/up.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button><br/>" +
+							"<button class=\\\"down_1\\\"><img src=\\\"resources/images/down.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button>" +
 						"</div>" +
 						"<div class=\\\"slide_image\\\">" +
 							"<img src=\\\"resources/images/Placeholder.png\\\"/>" +

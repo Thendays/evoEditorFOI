@@ -59,9 +59,21 @@ header button{
 	width:20px;
 	vertical-align:middle;
 }
+
+.move_slide{
+	float:left;
+	margin-left: 5px;
+	margin-top: 30px;
+}
+
 .delete_slide button {
 	margin: 45px auto auto -40px;
 }
+
+.move_slide button {
+	margin-bottom: 2px;
+}
+
 .slide_image{
 	float:right;
 	width:50%;
