@@ -159,6 +159,12 @@ function selectPage(e) {
 	
 	$(this).addClass("selected");
 	e.stopPropagation();
+	
+	if ($(".gallery:not(#left)").hasClass("selected")) {
+		$("#resource").prop('disabled', 'disabled');
+	} else {
+		$("#resource").prop('disabled', false);
+	}
 }
 
 function attachEvents() {
@@ -190,3 +196,21 @@ function attachEvents() {
 		});
 	});
 }
+
+$(document).on("change", "#resource", function() {
+	var pages = $("#left .selected");
+	var uuid = null;
+	var resource = $(this).val();
+	$.each(pages, function(idx, val) {
+		if ($(this).hasClass("selected") && !$(this).hasClass("gallery"))
+			uuid = $(this).attr("id");
+	});
+	
+	$.ajax({
+		url: 'changeresource.html',
+		data: {pageid: uuid, resource: resource},
+		success: function(data) {
+			$("#resourceUsed").html(resource);
+		}
+	});
+});

@@ -172,4 +172,11 @@ public class HomeController {
 	public void pageDownl(@RequestParam("pageid") UUID pageId) {
 		gallery.decreaseOrderNumber(pageId);
 	}
+	
+	@RequestMapping(value = "/changeresource", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeResource(@RequestParam("pageid") UUID pageId,
+							   @RequestParam("resource") String usedResource) {
+		gallery.changePageResourceToUsed(pageId, usedResource);
+	}
 }

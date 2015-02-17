@@ -70,7 +70,7 @@
                             <th class="second_col">Attribute</th>
                         </tr>
                     	<tr>
-                        	<td class="first_col">Image</td>
+                        	<td class="first_col" id="resourceUsed"></td>
                             <td class="second_col">image.jpg</td>
                         </tr>
                     </table>
@@ -80,7 +80,7 @@
                 	<div class="half_text" style="float: left;">
                 		Resource<br/>
                     </div>
-                    <select name="resource" id="resource">
+                    <select name="resource" id="resource" disabled>
                     	<option id="image">Image</option>
                         <option id="video">Video</option>
                         <option id="confirmation">Confirmation text</option>
