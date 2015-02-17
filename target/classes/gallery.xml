@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:mvc="http://www.springframework.org/schema/mvc"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+      					 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+      					 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       					 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+      xmlns:util="http://www.springframework.org/schema/util">
+	
+	<!-- <bean id="previewPane" class="com.evolaris.editor.controller.GalleryPreview">
+	</bean> -->
+	
+	<bean id="gallery" class="com.evolaris.editor.model.RawGallery">
+		<constructor-arg>
+			<util:list value-type="java.lang.String">
+				<value>name</value>
+				<value>qrcode</value>
+				<value>repeat</value>
+				<value>showIndicator</value>
+				<value>transparency</value>
+			</util:list>
+		</constructor-arg>
+		<constructor-arg>
+			<util:list value-type="java.lang.String">
+				<value>description</value>
+				<value>confirmationText</value>
+			</util:list>
+		</constructor-arg>
+		<constructor-arg>
+			<util:list value-type="com.evolaris.editor.model.interfaces.IPageResource">
+				<bean class="com.evolaris.editor.model.RawPageResource">
+					<property name="name" value="image" />
+					<property name="isUsed" value="false" />
+					<property name="canHaveContent" value="false" />
+					<property name="attributeMap">
+						<map>
+							<entry key="path" value="" />
+						</map>
+					</property>
+				</bean>
+				<bean class="com.evolaris.editor.model.RawPageResource">
+					<property name="name" value="text" />
+					<property name="isUsed" value="false" />
+					<property name="canHaveContent" value="true" />
+					<property name="content" value="" />
+				</bean>
+				<bean class="com.evolaris.editor.model.VideoPageResource">
+					<property name="isUsed" value="false" />
+					<property name="attributeValue" value="" />
+				</bean>
+			</util:list>
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="com.evolaris.editor.model.EvoPageResourceRule" />
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="com.evolaris.editor.model.RawPage" />
+		</constructor-arg>
+		<property name="galleryDefined" value="true" />
+		<property name="galleryAttributeMap">
+			<map>
+				<entry key="name" value="Gallery name" />
+				<entry key="qrcode" value="qrcode" />
+				<!-- for default setting to be repeat and showIndicator true change lines to this -->
+				<!-- <entry key="repeat" value="checked" /> -->
+				<entry key="repeat" value="" />
+				<entry key="showIndicator" value="" />
+				<entry key="transparency" value="256" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="dynamicContent" class="com.evolaris.editor.model.JSONObj" scope="prototype" />
+	
+	<bean id="page" class="com.evolaris.editor.model.RawPage" scope="prototype" />		
+</beans>
