@@ -15,13 +15,13 @@ function refreshPages() {
 	var json;
 	$.ajax({
 		url: 'refresh',
-		dataType: 'json',
-		success: function(json) {
-			$('#left').html(json.gallerySidebar);
-			$('#galleryName').html(json.galleryName);
-			$('#qrCode').html(json.qrCode);
-			$('#transparency').html(json.transparency);
-			$('#chk').html(json.chk);
+		success: function(data) {
+			$("#left").html(data);
+//			$('#left').html(json.gallerySidebar);
+//			$('#galleryName').html(json.galleryName);
+//			$('#qrCode').html(json.qrCode);
+//			$('#transparency').html(json.transparency);
+//			$('#chk').html(json.chk);
 			attachEvents();
 		}
 	});
@@ -29,7 +29,7 @@ function refreshPages() {
 
 function addPage() {
 	var pages = $("#left .selected");
-	var uuid = $(".gallery:not(#left)").attr("id");
+	var uuid = $("#left").attr("data-id");
 	$.each(pages, function(idx, val) {
 		if ($(this).hasClass("selected") && !$(this).hasClass("gallery"))
 			uuid = $(this).attr("data-parentid");

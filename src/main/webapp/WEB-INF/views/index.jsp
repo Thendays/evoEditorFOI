@@ -35,10 +35,8 @@
     </header>
     <div id="main">
     
-    	<div id="left" class="gallery">
-    		<c:forEach items="${pages}" var="page">
-    			
-    		</c:forEach>
+    	<div id="left" class="gallery" data-id="<c:out value="${galleryID}"/>" >
+
         </div>
         
         <div id="center">
