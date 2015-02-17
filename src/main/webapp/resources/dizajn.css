@@ -1,0 +1,265 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	background:#fff;
+}
+#container{
+	width:1325px;
+	margin:0 auto;
+	border: 1px solid #000;
+}
+
+/*header*/
+header{
+	width:1305px;
+	height: 20px; 
+	padding-top:10px;
+	padding-left:20px;
+	padding-bottom: 10px;
+	border: 1px solid #000;
+}
+header button{
+	margin-left:10px;
+}
+#header_right{
+	float:right;
+	margin-right: 50px;
+}
+
+/*glavni dio */
+#main{
+	width:1325px;
+	border: 1px solid #000;
+	float:left;
+}
+/*lijevo*/
+.gallery{
+	float:left;
+	overflow-y:scroll;
+	border-right: 1px solid #000;
+	width:270px;
+	height:588px;
+}
+
+.first{
+	width:234px;
+	height:128px;
+	margin: 20px auto 0;
+	border: 1px solid #000;
+}
+.second{
+	width:191px;
+	height:128px;
+	margin: 20px 0 0 51px;
+	border: 1px solid #000;
+}
+.delete_slide{
+	float:right;
+	width:20px;
+	vertical-align:middle;
+}
+.delete_slide button {
+	margin: 45px auto auto -40px;
+}
+.slide_image{
+	float:right;
+	width:50%;
+	margin-right:40px;
+}
+.first .slide_image img {
+	height: 80px;
+    margin-left: 20px;
+    margin-top: 10px;
+    text-align: center;
+    width: 80px;
+}
+.slide_image .slide_number {
+	margin-left: 30px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+.slide_image .slide_number input{
+	margin-top: 3px;
+	width: 35px;
+	margin-left: -60px;
+}
+.second .slide_image img {
+	height: 80px;
+    margin-left: 5px;
+    margin-top: 10px;
+    text-align: center;
+    width: 80px;
+}
+
+/*sredina*/
+#center{
+	float:left;
+	width:734px; /* 766px full width */
+	height:588px;
+}
+#center #center_main {
+	width: 741px;
+	height: 300px;
+	margin: 30px 20px;
+	border: 1px solid #000;
+}
+#center #center_main #center_main_image {
+	border: 1px solid #000;
+    height: 143px;
+    margin: 30px auto 20px;
+    text-align: center;
+    width: 613px;
+}
+#center #center_main #center_main_image img{
+	margin-top: 15px;
+    width: 240px;
+	height: 120px;
+}
+#center #center_main #center_main_text {
+	width:100%;
+	float:left;
+}
+#center #center_main #center_main_text #center_main_text_button {
+	float: left;
+    margin-top: 10px;
+    text-align: center;
+    width: 15%;
+}
+#center #center_main #center_main_text #center_main_text_button button{
+	text-align:center;
+}
+#center #center_main #center_center_text{
+	width:70%;
+	margin:0 auto;
+	float:left;
+}
+#center #center_main #center_center_text input{
+	width:100%;
+	margin-top:5px;
+}
+#center #center_main_info {
+	width: 741px;
+	height: 189px;
+	margin: 30px 20px;
+	border: 1px solid #000;
+}
+.half {
+    float: left;
+    height: 120px;
+    padding-left: 20px;
+    padding-top: 8px;
+}
+.first_half {
+	width: 55%;
+}
+.second_half {
+	width: 38%;
+}
+.half_text {
+	font-size:14px;
+	padding:10px;
+}
+.half input, select{
+	margin: 0 10px;
+}
+.half .short {
+	width:100px;
+}
+.half table{
+	border: 1px solid #ccc;
+	width:95%;
+}
+.table {
+	overflow-y:scroll;
+}
+.half table tr{
+	width:100%;
+}
+.half table .first_col{
+	width:30%;
+	padding:5px;
+	border: 1px solid #ccc;
+}
+.half table .second_col{
+	width:65%;
+	padding:5px;
+	border: 1px solid #ccc;
+}
+.half table th{
+	text-align:center;
+	font-size:bold;
+}
+#add_attr{
+	margin-left:30px;
+}
+
+/*desno*/
+#right{
+	float:right;
+	width:270px;
+	height:588px;
+	border-left: 1px solid #000;
+}
+.right_input {
+	float: left;
+    padding: 5px;
+	margin: 8px 0;
+    text-align: center;
+    width: 100%;
+}
+.right_input_text {
+	font-size:14px;
+	padding:10px;
+}
+.first_div{
+	padding-top:10px;
+}
+.two_divs {
+	float:left;
+	margin-left: 30px;
+    width: 80%;
+}
+#qr_code_preview {
+	border: 1px solid #000;
+    float: left;
+    height: 53px;
+    margin: 10px;
+    width: 94px;
+}
+.two_divs button {
+	float: left;
+    margin-top: 40px;
+}
+.slider {
+	width:80%;
+	text-align:center;
+	margin-left:20px;
+}
+.slider_value {
+	margin: 10px;
+    width: 50px;
+}
+#slider{
+	width:60%;
+	float:left;
+}
+#outline_slider{
+	margin-left:10px;
+}
+.text_slider{
+	float:left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.left_align{
+	text-align:left;
+	margin-left:20px;
+	margin-top:20px;
+	width:75%;
+}
+
+.selected:not(.gallery) {
+	border: 5px solid #3366FF;
+}
