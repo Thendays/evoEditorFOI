@@ -23,7 +23,8 @@ import com.evolaris.editor.model.interfaces.IPage;
 @Controller
 public class HomeController {
 	
-	private IGallery gallery;	
+	private IGallery gallery;
+	
 	private ApplicationContext context;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -44,87 +45,38 @@ public class HomeController {
 		model.addAttribute("parentPage", gallery.getID());
 		
 		return "pageMenu";
-		//ModelAndView modelAndView = new ModelAndView("index.jsp");
-		
-		
-//		JSONObj dynamicContent;
-//		
-//		dynamicContent = context.getBean("dynamicContent", JSONObj.class);
-//		
-//		ArrayList<IPage> pages = gallery.getChildPageList(gallery.getID());
-//		
-//		String gallerySidebar = "<div class=\\\"gallery selected\\\" id=\\\"" + gallery.getID() + "\\\" onclick=\\\"selectPage.call(this, event)\\\">";
-//		
-//		for (IPage page : pages) {
-//			if (page.getParentID().equals(gallery.getID())) {
-//				gallerySidebar += 
-						
-//			}
-//			
-//			if (gallery.getChildPageList(page.getId()).size() != 0) {
-//				for (IPage subpage : gallery.getChildPageList(page.getId())) {
-//					gallerySidebar = appendSubpages(subpage, gallerySidebar);
-//				}
-//			}
-//		}
-//		gallerySidebar += "</div>";
-//		
-//		String galleryName = "<div class=\\\"right_input_text\\\">Name<br/>"
-//				+ "<input type=\\\"text\\\" name=\\\"name\\\" placeholder=\\\"Name\\\" "
-//				+ "value=\\\"" + gallery.getGalleryAttribute("name") + "\\\"></div>";
-//		
-//		String qrCode = "<div class=\\\"right_input_text\\\">QR Code<br/>"
-//				+ "<input type=\\\"text\\\" name=\\\"qr\\\" placeholder=\\\"QR Code\\\" "
-//				+ "value=\\\"" + gallery.getGalleryAttribute("qrcode") + "\\\"></div>";
-//		
-//		String transparency = "<input class=\\\"slider_value\\\" type=\\\"number\\\" "
-//				+ "id=\\\"opacity\\\" readonly value=\\\"" 
-//				+ gallery.getGalleryAttribute("transparency") + "\\\">";
-//		
-//		String chk = "<input type=\\\"checkbox\\\" name=\\\"repeat\\\" "
-//				+ "value=\\\"Repeat\\\" " + gallery.getGalleryAttribute("repeat") 
-//				+ ">Repeat<br><input type=\\\"checkbox\\\" name=\\\"show_indicator\\\" "
-//				+ "value=\\\"Show_indicator\\\" " + gallery.getGalleryAttribute("showIndicator") 
-//				+ ">Show indicator";
-//		
-//		dynamicContent.put("gallerySidebar", gallerySidebar);
-//		dynamicContent.put("galleryName", galleryName);
-//		dynamicContent.put("qrCode", qrCode);
-//		dynamicContent.put("transparency", transparency);
-//		dynamicContent.put("chk", chk);
-//		return dynamicContent.toString();
 	}
 	
-	private String appendSubpages(IPage subpage, String sPages) {
-		sPages += 
-				"<div class=\\\"second\\\" id=\\\"" + String.valueOf(subpage.getId()) + "\\\" onclick=\\\"selectPage.call(this, event)\\\" data-parentid=\\\"" + subpage.getParentID() + "\\\">" +
-						"<div class=\\\"delete_slide\\\">" +
-							"<button class=\\\"delete_1\\\">" + 
-								"<img src=\\\"resources/images/delete.png\\\" width=\\\"20px\\\"/>" + 
-							"</button>" +
-						"</div>" +
-						"<div class=\\\"move_slide\\\">" +
-							"<button class=\\\"up_1\\\"><img src=\\\"resources/images/up.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button><br/>" +
-							"<button class=\\\"down_1\\\"><img src=\\\"resources/images/down.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button>" +
-						"</div>" +
-						"<div class=\\\"slide_image\\\">" +
-							"<img src=\\\"resources/images/Placeholder.png\\\"/>" +
-							"<div class=\\\"slide_number\\\">" +
-								"<input type=\\\"number\\\" name=\\\"quantity\\\"" +
-								"min=\\\"1\\\" max=\\\"1000\\\"" +
-								"value=\\\"" + String.valueOf(subpage.getOrderNumber() + 1) + "\\\">" +
-							"</div>" +
-						"</div>" +
-				"</div>";
-		
-		if (gallery.getChildPageList(subpage.getId()).size() != 0) {
-			for (IPage childPage : gallery.getChildPageList(subpage.getId())) {
-				sPages = appendSubpages(childPage, sPages);
-			}
-		}
-
-		return sPages;
-	}
+//	private String appendSubpages(IPage subpage, String sPages) {
+//		sPages += 
+//				"<div class=\\\"second\\\" id=\\\"" + String.valueOf(subpage.getId()) + "\\\" onclick=\\\"selectPage.call(this, event)\\\" data-parentid=\\\"" + subpage.getParentID() + "\\\">" +
+//						"<div class=\\\"delete_slide\\\">" +
+//							"<button class=\\\"delete_1\\\">" + 
+//								"<img src=\\\"resources/images/delete.png\\\" width=\\\"20px\\\"/>" + 
+//							"</button>" +
+//						"</div>" +
+//						"<div class=\\\"move_slide\\\">" +
+//							"<button class=\\\"up_1\\\"><img src=\\\"resources/images/up.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button><br/>" +
+//							"<button class=\\\"down_1\\\"><img src=\\\"resources/images/down.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button>" +
+//						"</div>" +
+//						"<div class=\\\"slide_image\\\">" +
+//							"<img src=\\\"resources/images/Placeholder.png\\\"/>" +
+//							"<div class=\\\"slide_number\\\">" +
+//								"<input type=\\\"number\\\" name=\\\"quantity\\\"" +
+//								"min=\\\"1\\\" max=\\\"1000\\\"" +
+//								"value=\\\"" + String.valueOf(subpage.getOrderNumber() + 1) + "\\\">" +
+//							"</div>" +
+//						"</div>" +
+//				"</div>";
+//		
+//		if (gallery.getChildPageList(subpage.getId()).size() != 0) {
+//			for (IPage childPage : gallery.getChildPageList(subpage.getId())) {
+//				sPages = appendSubpages(childPage, sPages);
+//			}
+//		}
+//
+//		return sPages;
+//	}
 	
 	@RequestMapping(value = "/addpage", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
