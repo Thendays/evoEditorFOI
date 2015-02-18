@@ -23,8 +23,7 @@ import com.evolaris.editor.model.interfaces.IPage;
 @Controller
 public class HomeController {
 	
-	private IGallery gallery;
-	
+	private IGallery gallery;	
 	private ApplicationContext context;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
