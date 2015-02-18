@@ -17,11 +17,6 @@ function refreshPages() {
 		url: 'refresh',
 		success: function(data) {
 			$("#left").html(data);
-//			$('#left').html(json.gallerySidebar);
-//			$('#galleryName').html(json.galleryName);
-//			$('#qrCode').html(json.qrCode);
-//			$('#transparency').html(json.transparency);
-//			$('#chk').html(json.chk);
 			attachEvents();
 		}
 	});
@@ -31,8 +26,8 @@ function addPage() {
 	var pages = $("#left .selected");
 	var uuid = $("#left").attr("data-id");
 	$.each(pages, function(idx, val) {
-		if ($(this).hasClass("selected") && !$(this).hasClass("gallery"))
-			uuid = $(this).attr("data-parentid");
+		if ($(this).hasClass("selected"))
+			uuid = $(this).attr("id");
 	});
 	
 	$.ajax({
@@ -152,6 +147,9 @@ function selectPage(e) {
 	
 	var pages = $("#left").find(".selected");
 	
+	if ($("#left").hasClass("selected"))
+		$("#left").removeClass("selected");
+	
 	$.each(pages, function(idx, val) {
 		if ($(this).hasClass("selected"))
 			$(this).removeClass("selected");
@@ -160,7 +158,7 @@ function selectPage(e) {
 	$(this).addClass("selected");
 	e.stopPropagation();
 	
-	if ($(".gallery:not(#left)").hasClass("selected")) {
+	if ($("#left").hasClass("selected")) {
 		$("#resource").prop('disabled', 'disabled');
 	} else {
 		$("#resource").prop('disabled', false);
