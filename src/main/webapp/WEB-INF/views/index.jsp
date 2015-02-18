@@ -13,6 +13,8 @@
 <script src="resources/js/jquery-1.10.2.js"></script>
 <script src="resources/js/jquery-ui.js"></script>
 <script src="resources/js/funkcije.js"></script>
+<script src="resources/js/js-webshim/minified/polyfiller.js"></script>
+<script src="resources/js/modernizr.js"></script>
 
 <script type="text/javascript" src="resources/js/jquery.fullscreen-0.4.2.min.js"></script>
 
@@ -23,7 +25,6 @@
 <div id="container">
 	<header>
     	<button id="add_slide" onclick="addPage()"><img src="resources/images/plus.png" width="12px"/>&nbsp;Add new slide</button>
-        <button id="add_instruction" onclick="addSubPage()"><img src="resources/images/plus.png" width="12px"/>&nbsp;Add extra instruction</button>
         <button id="play"><img src="resources/images/preview_eye.png" width="12px"/>&nbsp;Preview</button>
         <button id="undo"><img src="resources/images/undo.png" width="12px"/></button>
         <button id="redo"><img src="resources/images/redo.png" width="12px"/></button>
@@ -134,9 +135,13 @@
                 </div>
             </div>
             <div class="right_input slider">
-	            <label for="transp">Transparency</label>
-	            <br/><input type="number" id="transparency" value="<c:out value='${gallery.getGalleryAttribute("transparency")}'/>" onchange="chngTransparency.call(this, event)"><br/>
-				0<input type="range" id="transparency_slider" min="0" value="<c:out value='${gallery.getGalleryAttribute("transparency")}'/>" max="256" step="1" onchange="chngTransparency.call(this, event)">256
+	            <form action="#">
+				    <div class="form-row number-range-combi">
+				    	<label for="transparency">Transparency</label><br/>
+				        <input name="transparency" id="transparency" type="number" value="<c:out value='${gallery.getGalleryAttribute("transparency")}'/>" min="0" max="256" data-number-stepfactor="1" /><br/>
+				        <input id="transparency_slider" type="range" value="<c:out value='${gallery.getGalleryAttribute("transparency")}'/>" max="256" data-range-stepfactor="1"  />
+				    </div>
+				</form>
             </div>
             <div class="right_input left_align" id="checkBoxes">
             	<input id="repeat" type="checkbox" name="repeat" value="repeat" <c:out value='${gallery.getGalleryAttribute("repeat")}'/>>Repeat<br>
@@ -148,6 +153,52 @@
         </div>
     </div>
 </div>
+
+<script>
+$.webshim.setOptions('forms-ext', {
+    replaceUI: 'auto',
+    types: 'range',
+    widgets: {
+    	"classes": "hide-inputbtns",
+        number: {
+            calculateWidth: false
+        }
+    }
+});
+
+$.webshim.polyfill('forms forms-ext');
+
+$(function(){
+    $('.number-range-combi').combineNumberRange();
+});
+
+$.fn.combineNumberRange = function(){
+    return this.each(function(){
+        var timer;
+        var range = $('input[type="range"]', this);
+        var number = $('input[type="number"]', this);
+        
+        function onRangeChange(){
+            number.val(range.val());
+        }
+        
+        function onNumberChange(){
+            if(number.is(':valid')){
+                range.val(number.val());
+            }
+        }
+        
+        range.on('input change', function(e){
+            clearTimeout(timer);
+            timer = setTimeout(onRangeChange, 0);
+        });
+        number.on('input change', function(e){
+            clearTimeout(timer);
+            timer = setTimeout(onNumberChange, 0);
+        });
+    });
+};
+</script>
 		
 </body>
 

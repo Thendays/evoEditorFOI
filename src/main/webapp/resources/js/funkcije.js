@@ -1,15 +1,3 @@
-$(function() {
-	  $( "#slider" ).slider({
-		  range: "min",
-		  min: 0,
-		  max: 256,
-		  value: 256,
-		  slide: function( event, ui ) {
-			$( "#opacity" ).val( ui.value );
-		  }
-    	});
-		$( "#opacity" ).val( $( "#slider" ).slider( "value" ) );
-  });
 
 function refreshPages() {
 	$.ajax({
