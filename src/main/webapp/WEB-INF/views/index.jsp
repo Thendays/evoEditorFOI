@@ -129,7 +129,7 @@
                 </div>
                 <div class="two_divs">
                 	<div id="qr_code_preview">
-                    	<img src="resources/images/Placeholder.png" height="100%"/>
+                    	<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<c:out value='${gallery.getGalleryAttribute("qrcode")}'/>" height="100%"/>
                     </div>
                     <button id="qr_browse">Browse</button>
                 </div>

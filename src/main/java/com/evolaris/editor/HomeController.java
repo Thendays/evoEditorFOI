@@ -44,11 +44,8 @@ public class HomeController {
 	//public @ResponseBody
 	@ResponseStatus(value = HttpStatus.OK)
 	public String refreshPages(Model model) {
-		Double scale = new Double(0.9);
 		model.addAttribute("gallery", gallery);
-		model.addAttribute("galleryID", gallery.getID());
 		model.addAttribute("parentPage", gallery.getID());
-		model.addAttribute("scale", scale);
 		return "pageMenu";
 	}
 	

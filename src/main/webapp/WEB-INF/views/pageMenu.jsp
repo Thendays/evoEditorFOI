@@ -4,18 +4,10 @@
 <c:forEach var="page" items="${gallery.getChildPageList(parentPage)}">  
 		<c:choose>
 			<c:when test="${page.getParentID() != gallery.getID() }">
-	    		<div class="pages" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage.call(this, event)" data-parentid="<c:out value="${parentPage}"></c:out>" style="zoom: <c:out value="${scale}"></c:out>">
-	    		<c:choose>
-					<c:when test="${scale <= 0.1}">
-						<c:set var="scale" value="${scale - 0.01}" scope="request"/>
-					</c:when>	
-					<c:otherwise>
-						<c:set var="scale" value="${scale - 0.1}" scope="request"/>
-					</c:otherwise>
-				</c:choose>
+	    		<div class="pages" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage.call(this, event)" data-parentid="<c:out value="${page.getParentID()}"></c:out>" >
 			</c:when>
 			<c:otherwise>
-				<div class="pages" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage.call(this, event)" data-parentid="<c:out value="${parentPage}"></c:out>" >
+				<div class="pages" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage.call(this, event)" data-parentid="<c:out value="${gallery.getID()}"></c:out>" style="zoom: 1;">
 			</c:otherwise>
 		</c:choose>
 		<div class="delete_slide">

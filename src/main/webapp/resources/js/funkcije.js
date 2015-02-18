@@ -5,6 +5,17 @@ function refreshPages() {
 		success: function(data) {
 			$("#left").html(data);
 			attachEvents();
+			
+			var galleryId = $("#left").attr("data-id");
+			var pages = $("#left .pages");
+			$.each(pages, function(idx, val) {
+				if ($(this).attr("data-parentid") !== galleryId) {
+					if (parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) <= 0.1)
+						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.01));
+					else
+						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.1));
+				}
+			});
 		}
 	});
 }
@@ -163,20 +174,20 @@ function selectPage(e) {
 		$("#resource").prop('disabled', false);
 	}
 	
-	if (uuid !== null) {
-		$.ajax({
-			url: 'checkresource.html',
-			data: {pageid: uuid},
-			dataType: "json",
-			success: function(data) {
-				$("#resourceUsed").html(data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1));
-				$("#fileName").html(data.value);
-				$("#resource option").filter(function() {
-				    return this.text === (data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1)); 
-				}).attr('selected', true);
-			}
-		});
-	}
+//	if (uuid !== null) {
+//		$.ajax({
+//			url: 'checkresource.html',
+//			data: {pageid: uuid},
+//			dataType: "json",
+//			success: function(data) {
+//				$("#resourceUsed").html(data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1));
+//				$("#fileName").html(data.value);
+//				$("#resource option").filter(function() {
+//				    return this.text === (data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1)); 
+//				}).attr('selected', true);
+//			}
+//		});
+//	}
 }
 
 function attachEvents() {
