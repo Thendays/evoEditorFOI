@@ -48,12 +48,6 @@
 					<property name="content" value="" />
 				</bean>
 				<bean id="video" class="com.evolaris.editor.model.VideoPageResource" scope="prototype">
-					<property name="isUsed" value="false" />
-					<property name="attributeMap">
-						<map>
-							<entry key="path" value="" />
-						</map>
-					</property>
 				</bean>
 			</util:list>
 		</constructor-arg>

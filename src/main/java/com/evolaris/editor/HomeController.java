@@ -44,42 +44,13 @@ public class HomeController {
 	//public @ResponseBody
 	@ResponseStatus(value = HttpStatus.OK)
 	public String refreshPages(Model model) {
+		Double scale = new Double(0.9);
 		model.addAttribute("gallery", gallery);
 		model.addAttribute("galleryID", gallery.getID());
 		model.addAttribute("parentPage", gallery.getID());
+		model.addAttribute("scale", scale);
 		return "pageMenu";
 	}
-	
-//	private String appendSubpages(IPage subpage, String sPages) {
-//		sPages += 
-//				"<div class=\\\"second\\\" id=\\\"" + String.valueOf(subpage.getId()) + "\\\" onclick=\\\"selectPage.call(this, event)\\\" data-parentid=\\\"" + subpage.getParentID() + "\\\">" +
-//						"<div class=\\\"delete_slide\\\">" +
-//							"<button class=\\\"delete_1\\\">" + 
-//								"<img src=\\\"resources/images/delete.png\\\" width=\\\"20px\\\"/>" + 
-//							"</button>" +
-//						"</div>" +
-//						"<div class=\\\"move_slide\\\">" +
-//							"<button class=\\\"up_1\\\"><img src=\\\"resources/images/up.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button><br/>" +
-//							"<button class=\\\"down_1\\\"><img src=\\\"resources/images/down.png\\\" width=\\\"10px\\\" height=\\\"10\\\"/></button>" +
-//						"</div>" +
-//						"<div class=\\\"slide_image\\\">" +
-//							"<img src=\\\"resources/images/Placeholder.png\\\"/>" +
-//							"<div class=\\\"slide_number\\\">" +
-//								"<input type=\\\"number\\\" name=\\\"quantity\\\"" +
-//								"min=\\\"1\\\" max=\\\"1000\\\"" +
-//								"value=\\\"" + String.valueOf(subpage.getOrderNumber() + 1) + "\\\">" +
-//							"</div>" +
-//						"</div>" +
-//				"</div>";
-//		
-//		if (gallery.getChildPageList(subpage.getId()).size() != 0) {
-//			for (IPage childPage : gallery.getChildPageList(subpage.getId())) {
-//				sPages = appendSubpages(childPage, sPages);
-//			}
-//		}
-//
-//		return sPages;
-//	}
 	
 	@RequestMapping(value = "/addpage", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)

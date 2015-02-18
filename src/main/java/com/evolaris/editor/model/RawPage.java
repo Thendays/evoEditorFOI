@@ -69,7 +69,7 @@ public class RawPage implements IPage{
         if (getClass() != obj.getClass())
             return false;
         IPage other = (IPage) obj;
-        if (this.iD != other.getId()){
+        if (!this.iD.equals(other.getId())){
         	return false;
         }            
         return true;

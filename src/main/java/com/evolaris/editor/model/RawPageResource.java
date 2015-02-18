@@ -25,6 +25,14 @@ public class RawPageResource implements IPageResource {
 		canHaveContent = DEFAULT_BOOLEAN;
 	}
 	
+	public HashMap<String, String> getAttributeMap() {
+		return attributeMap;
+	}
+
+	public void setAttributeMap(HashMap<String, String> attributeMap) {
+		this.attributeMap = attributeMap;
+	}
+
 	@Override
 	public String getName() {
 		return name;

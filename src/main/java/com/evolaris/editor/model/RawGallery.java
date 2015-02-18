@@ -62,7 +62,15 @@ public class RawGallery implements IGallery{
         }        
     }
     
-    public RawGallery() {
+    public boolean isGalleryDefined() {
+		return galleryDefined;
+	}
+
+	public void setGalleryDefined(boolean galleryDefined) {
+		this.galleryDefined = galleryDefined;
+	}
+
+	public RawGallery() {
     	galleryDefined = false;
 	}
     
@@ -141,7 +149,7 @@ public class RawGallery implements IGallery{
     	IPage pageToIncrement = findPageByID(iD);
     	if(pageToIncrement != null && pageToIncrement.getOrderNumber() != 0){
     		for(IPage page : pageList){
-    			if(page.getParentID() == pageToIncrement.getParentID()){
+    			if(page.getParentID().equals(pageToIncrement.getParentID())){
     				if(page.getOrderNumber() == pageToIncrement.getOrderNumber() - 1){
     					page.decreaseOrderNumber();
     					pageToIncrement.increaseOrderNumber();

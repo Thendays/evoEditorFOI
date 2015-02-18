@@ -42,17 +42,14 @@ header button{
 	height:588px;
 }
 
-.first{
+.pages{
 	width:234px;
 	height:128px;
 	margin: 20px auto 0;
 	border: 1px solid #000;
-}
-.second{
-	width:191px;
-	height:128px;
-	margin: 20px 0 0 51px;
-	border: 1px solid #000;
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 10px;
 }
 .delete_slide{
 	float:right;
@@ -79,7 +76,7 @@ header button{
 	width:50%;
 	margin-right:40px;
 }
-.first .slide_image img {
+.pages .slide_image img {
 	height: 80px;
     margin-left: 20px;
     margin-top: 10px;

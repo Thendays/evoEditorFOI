@@ -46,7 +46,7 @@ function addSubPage() {
 }
 
 function deletePage() {
-	var uuid = $(this).closest(".first, .second").attr("id");
+	var uuid = $(this).closest(".pages").attr("id");
 	$.ajax({
 		url: 'deletepage.html',
 		data: {pageid: uuid},
@@ -57,7 +57,7 @@ function deletePage() {
 }
 
 function movePage(e, direction) {
-	var uuid = $(e).closest(".first, .second").attr("id");
+	var uuid = $(e).closest(".pages").attr("id");
 	if (direction === null) {
 		if (e.oldvalue > e.value) {
 			for (var i = (e.oldvalue - e.value); i>0; i--) {
@@ -180,7 +180,7 @@ function selectPage(e) {
 }
 
 function attachEvents() {
-	$('.first, .second').each(function(i) { 
+	$('.pages').each(function(i) { 
 		$.each($(this).find(":button.delete_1"), function() {
 			$(this).on("click", null, this, deletePage);
 			});
