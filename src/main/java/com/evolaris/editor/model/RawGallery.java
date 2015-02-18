@@ -1,15 +1,15 @@
 package com.evolaris.editor.model;
 
-import com.evolaris.editor.model.interfaces.IGallery;
-import com.evolaris.editor.model.interfaces.IPage;
-import com.evolaris.editor.model.interfaces.IPageResource;
-import com.evolaris.editor.model.interfaces.IPageResourceRule;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
+
+import com.evolaris.editor.model.interfaces.IGallery;
+import com.evolaris.editor.model.interfaces.IPage;
+import com.evolaris.editor.model.interfaces.IPageResource;
+import com.evolaris.editor.model.interfaces.IPageResourceRule;
 
 /**
  * The class represents an undefined Gallery that will be used in the editor. It expects the
@@ -95,24 +95,12 @@ public class RawGallery implements IGallery{
 	public ArrayList<IPage> getChildPageList(UUID parentID){
     	ArrayList<IPage> childList = new ArrayList<IPage>();
     	for(IPage page : pageList){
-    		if(page.getParentID().equals(parentID)){
+    		if(page.getParentID().compareTo(parentID) == 0){
     			childList.add(page);
     		}
     	}
     	return childList;
     }
-
-	@Override
-	public boolean hasChildPages(UUID parentID) {
-		boolean result = false;
-		for(IPage page : pageList){
-    		if(page.getParentID().equals(parentID)){
-    			result = true;
-    			break;
-    		}
-    	}
-		return result;
-	}
 
 	/**
 	 * Add blank page as child of page with id parentID.
@@ -153,7 +141,7 @@ public class RawGallery implements IGallery{
     	IPage pageToIncrement = findPageByID(iD);
     	if(pageToIncrement != null && pageToIncrement.getOrderNumber() != 0){
     		for(IPage page : pageList){
-    			if(page.getParentID().equals(pageToIncrement.getParentID())){
+    			if(page.getParentID() == pageToIncrement.getParentID()){
     				if(page.getOrderNumber() == pageToIncrement.getOrderNumber() - 1){
     					page.decreaseOrderNumber();
     					pageToIncrement.increaseOrderNumber();
@@ -245,7 +233,7 @@ public class RawGallery implements IGallery{
     public void changePageResourceToUsed(UUID pageID, String resourceName){
     	IPage page = findPageByID(pageID);
     	if(page != null){
-    		page.usePageResource(resourceName);
+    		page.usePageResource(resourceName);;
     	}    	
     }
 
@@ -297,10 +285,7 @@ public class RawGallery implements IGallery{
 				removePageAndSubpages(childPage);
 			}
 		}
-		for (int i = 0; i<pageList.size(); i++) {
-			if (pageList.get(i).getId().equals(page.getId()))
-				pageList.remove(i);
-		}
+		pageList.remove(page);
 	}
 
 	private ArrayList<IPageResource> getPossiblePageResources() {
@@ -334,10 +319,6 @@ public class RawGallery implements IGallery{
 	@Override
 	public boolean isGallerySet() {
 		return this.galleryDefined;
-	}
-
-	public void setGalleryDefined(boolean galleryDefined) {
-		this.galleryDefined = galleryDefined;
 	}
 }
 

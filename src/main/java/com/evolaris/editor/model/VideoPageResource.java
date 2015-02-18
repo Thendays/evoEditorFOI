@@ -1,9 +1,9 @@
 package com.evolaris.editor.model;
 
-import com.evolaris.editor.model.interfaces.IPageResource;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import com.evolaris.editor.model.interfaces.IPageResource;
 
 public class VideoPageResource implements IPageResource {
 	
@@ -16,7 +16,6 @@ public class VideoPageResource implements IPageResource {
 	private String content;
 	private String attributeName;
 	private String attributeValue;
-	private String name;
 	private boolean isVisible;
 
 	public VideoPageResource() {
@@ -29,14 +28,11 @@ public class VideoPageResource implements IPageResource {
 
 	@Override
 	public String getName() {
-		return name;
+		return RESOURCE_NAME;
 	}
 	
 	@Override
-	public void setName(String name) {
-		this.name = name;
-		
-	}
+	public void setName(String name) {	}
 
 	@Override
 	public String getContent() {
@@ -89,12 +85,7 @@ public class VideoPageResource implements IPageResource {
 		vpr.setIsUsed(isVisible);
 		vpr.setContent(content);
 		vpr.setAttribute(attributeName, attributeValue);
-		vpr.setName(name);
 		
 		return vpr;
-	}
-
-	public void setAttributeValue(String attributeValue) {
-		this.attributeValue = attributeValue;
 	}
 }

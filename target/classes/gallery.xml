@@ -46,17 +46,9 @@
 					<property name="isUsed" value="false" />
 					<property name="canHaveContent" value="true" />
 					<property name="content" value="" />
-					<property name="attributeMap">
-						<map>
-							<entry key="path" value="" />
-						</map>
-					</property>
 				</bean>
-				<bean id="video" class="com.evolaris.editor.model.RawPageResource" scope="prototype">
-					<property name="name" value="video" />
+				<bean id="video" class="com.evolaris.editor.model.VideoPageResource" scope="prototype">
 					<property name="isUsed" value="false" />
-					<property name="canHaveContent" value="true" />
-					<property name="content" value="" />
 					<property name="attributeMap">
 						<map>
 							<entry key="path" value="" />

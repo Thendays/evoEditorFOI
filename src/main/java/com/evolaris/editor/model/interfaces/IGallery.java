@@ -31,11 +31,6 @@ public interface IGallery {
 	 * @return
 	 */
 	public ArrayList<IPage> getChildPageList(UUID parentID);
-	
-	/**
-	 * Returns true if given page has subpages
-	 */
-	public boolean hasChildPages(UUID parentID);
 
 	/**
 	 * Add new blank page as child of parent parentID.

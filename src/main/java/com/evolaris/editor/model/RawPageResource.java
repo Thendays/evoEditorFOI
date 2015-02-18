@@ -1,10 +1,10 @@
 package com.evolaris.editor.model;
 
-import com.evolaris.editor.model.interfaces.IPageResource;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import com.evolaris.editor.model.interfaces.IPageResource;
 
 public class RawPageResource implements IPageResource {
 	
@@ -109,9 +109,5 @@ public class RawPageResource implements IPageResource {
 	@Override
 	public void setIsUsed(boolean isVisible) {
 		this.isUsed = isVisible;
-	}
-
-	public void setAttributeMap(HashMap<String, String> attributeMap) {
-		this.attributeMap = attributeMap;
 	}
 }

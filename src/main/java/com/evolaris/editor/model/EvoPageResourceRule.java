@@ -1,9 +1,9 @@
 package com.evolaris.editor.model;
 
+import java.util.ArrayList;
+
 import com.evolaris.editor.model.interfaces.IPageResource;
 import com.evolaris.editor.model.interfaces.IPageResourceRule;
-
-import java.util.ArrayList;
 
 /**
  * Defines the rules on which page resources can be used by a single page. This <br/>

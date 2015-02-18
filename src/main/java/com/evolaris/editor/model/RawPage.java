@@ -1,13 +1,13 @@
 package com.evolaris.editor.model;
 
-import com.evolaris.editor.model.interfaces.IPage;
-import com.evolaris.editor.model.interfaces.IPageResource;
-import com.evolaris.editor.model.interfaces.IPageResourceRule;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
+
+import com.evolaris.editor.model.interfaces.IPage;
+import com.evolaris.editor.model.interfaces.IPageResource;
+import com.evolaris.editor.model.interfaces.IPageResourceRule;
 
 public class RawPage implements IPage{
 
@@ -69,7 +69,7 @@ public class RawPage implements IPage{
         if (getClass() != obj.getClass())
             return false;
         IPage other = (IPage) obj;
-        if (this.iD.equals(other.getId())){
+        if (this.iD != other.getId()){
         	return false;
         }            
         return true;
