@@ -12,7 +12,6 @@ $(function() {
   });
 
 function refreshPages() {
-	var json;
 	$.ajax({
 		url: 'refresh',
 		success: function(data) {
@@ -143,9 +142,18 @@ $(function() {
 	  });
 });
 
+function chngTransparency(e) {
+	if ($(this).attr("id") === "transparency") {
+		$("#transparency_slider").val($(this).val());
+	} else if($(this).attr("id") === "transparency_slider") {
+		$("#transparency").val($(this).val());
+	}
+}
+
 function selectPage(e) {
 	
 	var pages = $("#left").find(".selected");
+	var uuid = null;
 	
 	if ($("#left").hasClass("selected"))
 		$("#left").removeClass("selected");
@@ -156,12 +164,30 @@ function selectPage(e) {
 	});
 	
 	$(this).addClass("selected");
+	
+	if ($(this).attr("id") !== "left")
+		uuid = $(this).attr("id");
 	e.stopPropagation();
 	
 	if ($("#left").hasClass("selected")) {
 		$("#resource").prop('disabled', 'disabled');
 	} else {
 		$("#resource").prop('disabled', false);
+	}
+	
+	if (uuid !== null) {
+		$.ajax({
+			url: 'checkresource.html',
+			data: {pageid: uuid},
+			dataType: "json",
+			success: function(data) {
+				$("#resourceUsed").html(data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1));
+				$("#fileName").html(data.value);
+				$("#resource option").filter(function() {
+				    return this.text === (data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1)); 
+				}).attr('selected', true);
+			}
+		});
 	}
 }
 
@@ -205,10 +231,47 @@ $(document).on("change", "#resource", function() {
 	});
 	
 	$.ajax({
-		url: 'changeresource.html',
+		url: 'changeresource',
 		data: {pageid: uuid, resource: resource},
 		success: function(data) {
 			$("#resourceUsed").html(resource);
 		}
 	});
 });
+
+function saveGalleryAttributes() {
+	var repeat = null;
+	var showIndicator = null;
+	var qrCode = null;
+	var galleryName = null;
+	var transparency = null;
+	
+	if ($("#repeat").prop('checked')) {
+		repeat = "checked";
+	} else {
+		repeat = "";
+	}
+	
+	if ($("#showIndicator").prop('checked')) {
+		showIndicator = "checked";
+	} else {
+		showIndicator = "";
+	}
+	
+	qrCode = $("#qrCode").text();
+	galleryName = $("#galleryName").text();
+	transparency = $("#transparency").val();
+	
+	$.ajax({
+		url: 'galleryattr.html',
+		data: {name: galleryName, 
+			   qrcode: qrCode, 
+			   repeat: repeat, 
+			   showindicator: showIndicator, 
+			   transparency: transparency},
+			   
+		success: function(data) {
+			refreshPages();
+		}
+	});
+}

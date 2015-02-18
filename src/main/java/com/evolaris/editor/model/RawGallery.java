@@ -245,7 +245,7 @@ public class RawGallery implements IGallery{
     public void changePageResourceToUsed(UUID pageID, String resourceName){
     	IPage page = findPageByID(pageID);
     	if(page != null){
-    		page.usePageResource(resourceName);;
+    		page.usePageResource(resourceName);
     	}    	
     }
 

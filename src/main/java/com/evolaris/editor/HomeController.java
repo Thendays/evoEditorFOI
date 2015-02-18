@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.evolaris.editor.model.RawGallery;
+import com.evolaris.editor.model.RawPageResource;
+import com.evolaris.editor.model.VideoPageResource;
 import com.evolaris.editor.model.interfaces.IGallery;
 import com.evolaris.editor.model.interfaces.IPage;
+import com.evolaris.editor.model.interfaces.IPageResource;
 
 /**
  * Handles requests for the application home page.
@@ -43,7 +47,6 @@ public class HomeController {
 		model.addAttribute("gallery", gallery);
 		model.addAttribute("galleryID", gallery.getID());
 		model.addAttribute("parentPage", gallery.getID());
-		
 		return "pageMenu";
 	}
 	
@@ -106,6 +109,35 @@ public class HomeController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void changeResource(@RequestParam("pageid") UUID pageId,
 							   @RequestParam("resource") String usedResource) {
-		gallery.changePageResourceToUsed(pageId, usedResource);
+		gallery.changePageResourceToUsed(pageId, usedResource.toLowerCase());
+	}
+	
+	@RequestMapping(value = "/galleryattr", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void changeGalleryAttributes(@RequestParam("name") String galleryName,
+										@RequestParam("qrcode") String qrCode,
+										@RequestParam("repeat") String repeat,
+										@RequestParam("showindicator") String showIndicator,
+										@RequestParam("transparency") String transparency) {
+		
+		gallery.setGalleryAttribute("name", galleryName);
+		gallery.setGalleryAttribute("qrcode", qrCode);
+		gallery.setGalleryAttribute("repeat", repeat);
+		gallery.setGalleryAttribute("showIndicator", showIndicator);
+		gallery.setGalleryAttribute("transparency", transparency);
+	}
+	
+	@RequestMapping(value = "/checkresource", method = RequestMethod.GET)
+	@ResponseBody
+	public String checkResourceUsed(@RequestParam("pageid") UUID pageId) {
+		String resource = "";
+		
+		for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
+			if (res.getIsUsed()) {
+				resource += "{\"resourceUsed\": \"" + res.getName() + 
+						"\", \"value\": \"" + res.getAttributeValue("path") + "\"}";
+			}
+		}
+		return resource;
 	}
 }

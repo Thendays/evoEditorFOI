@@ -31,7 +31,7 @@
 		</constructor-arg>
 		<constructor-arg>
 			<util:list value-type="com.evolaris.editor.model.interfaces.IPageResource">
-				<bean class="com.evolaris.editor.model.RawPageResource">
+				<bean id="image" class="com.evolaris.editor.model.RawPageResource" scope="prototype">
 					<property name="name" value="image" />
 					<property name="isUsed" value="false" />
 					<property name="canHaveContent" value="false" />
@@ -41,15 +41,27 @@
 						</map>
 					</property>
 				</bean>
-				<bean class="com.evolaris.editor.model.RawPageResource">
+				<bean id="text" class="com.evolaris.editor.model.RawPageResource" scope="prototype">
 					<property name="name" value="text" />
 					<property name="isUsed" value="false" />
 					<property name="canHaveContent" value="true" />
 					<property name="content" value="" />
+					<property name="attributeMap">
+						<map>
+							<entry key="path" value="" />
+						</map>
+					</property>
 				</bean>
-				<bean class="com.evolaris.editor.model.VideoPageResource">
+				<bean id="video" class="com.evolaris.editor.model.RawPageResource" scope="prototype">
+					<property name="name" value="video" />
 					<property name="isUsed" value="false" />
-					<property name="attributeValue" value="" />
+					<property name="canHaveContent" value="true" />
+					<property name="content" value="" />
+					<property name="attributeMap">
+						<map>
+							<entry key="path" value="" />
+						</map>
+					</property>
 				</bean>
 			</util:list>
 		</constructor-arg>
@@ -68,7 +80,7 @@
 				<!-- <entry key="repeat" value="checked" /> -->
 				<entry key="repeat" value="" />
 				<entry key="showIndicator" value="" />
-				<entry key="transparency" value="256" />
+				<entry key="transparency" value="5" />
 			</map>
 		</property>
 	</bean>

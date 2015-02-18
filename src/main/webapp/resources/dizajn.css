@@ -267,7 +267,7 @@ header button{
 }
 .slider_value {
 	margin: 10px;
-    width: 50px;
+    width: 40px;
 }
 #slider{
 	width:60%;
@@ -284,10 +284,28 @@ header button{
 .left_align{
 	text-align:left;
 	margin-left:20px;
-	margin-top:20px;
 	width:75%;
+}
+
+#saveGalleryAttributes {
+	position: absolute; 
+	right:30px; 
+	top:580px;
 }
 
 .selected:not(.gallery) {
 	border: 5px solid #3366FF;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+#transparency{
+	width: 40px;
+	text-align: center;
+	margin-top: 5px;
 }

@@ -69,7 +69,7 @@
                         </tr>
                     	<tr>
                         	<td class="first_col" id="resourceUsed"></td>
-                            <td class="second_col">image.jpg</td>
+                            <td class="second_col" id="fileName"></td>
                         </tr>
                     </table>
                 </div>
@@ -81,8 +81,7 @@
                     <select name="resource" id="resource" disabled>
                     	<option id="image">Image</option>
                         <option id="video">Video</option>
-                        <option id="confirmation">Confirmation text</option>
-                        <option id="description">Description</option>
+                        <option id="confirmation">Text</option>
                     </select>
                     <br/><br/>
                     <div class="half_text">
@@ -103,6 +102,22 @@
                 	GALLERY<br/>
                 </div><hr width="80%">
             </div>
+            <div class="half table">
+                	<table>
+                    	<tr>
+                        	<th class="first_col">Resource</th>
+                            <th class="second_col">Attribute</th>
+                        </tr>
+                    	<tr>
+                        	<td class="first_col">Gallery name</td>
+                            <td class="second_col" id="galleryName"><div contenteditable><c:out value='${gallery.getGalleryAttribute("name")}'/></td>
+                        </tr>
+                        <tr>
+                            <td class="first_col">QrCode</td>
+                            <td class="second_col" id="qrCode"><div contenteditable><c:out value='${gallery.getGalleryAttribute("qrcode")}'/></td>
+                        </tr>
+                    </table>
+                </div>
             <div class="right_input" id="galleryName">
             </div>
             <div class="right_input" id="qrCode">
@@ -119,15 +134,16 @@
                 </div>
             </div>
             <div class="right_input slider">
-            	<div class="right_input_text" id="transparency">Transparency
-                </div>
-                <div id="outline_slider">
-                    <div class="text_slider">0</div>
-                    <div id="slider"></div>
-                    <div class="text_slider">256</div>
-                </div>
+	            <label for="transp">Transparency</label>
+	            <br/><input type="number" id="transparency" value="<c:out value='${gallery.getGalleryAttribute("transparency")}'/>" onchange="chngTransparency.call(this, event)"><br/>
+				0<input type="range" id="transparency_slider" min="0" value="<c:out value='${gallery.getGalleryAttribute("transparency")}'/>" max="256" step="1" onchange="chngTransparency.call(this, event)">256
             </div>
-            <div class="right_input left_align" id="chk"> 
+            <div class="right_input left_align" id="checkBoxes">
+            	<input id="repeat" type="checkbox" name="repeat" value="repeat" <c:out value='${gallery.getGalleryAttribute("repeat")}'/>>Repeat<br>
+  				<input id="showIndicator" type="checkbox" name="showIndicator" value="showIndicator" <c:out value='${gallery.getGalleryAttribute("showIndicator")}'/>>Show indicator<br>
+            </div>
+            <div id="saveGalleryAttributes" onclick="saveGalleryAttributes.call()">
+            		<button><img src="resources/images/save.png" width="30px"/></button>
             </div>
         </div>
     </div>

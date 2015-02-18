@@ -16,6 +16,7 @@ public class VideoPageResource implements IPageResource {
 	private String content;
 	private String attributeName;
 	private String attributeValue;
+	private String name;
 	private boolean isVisible;
 
 	public VideoPageResource() {
@@ -28,11 +29,14 @@ public class VideoPageResource implements IPageResource {
 
 	@Override
 	public String getName() {
-		return RESOURCE_NAME;
+		return name;
 	}
 	
 	@Override
-	public void setName(String name) {	}
+	public void setName(String name) {
+		this.name = name;
+		
+	}
 
 	@Override
 	public String getContent() {
@@ -85,6 +89,7 @@ public class VideoPageResource implements IPageResource {
 		vpr.setIsUsed(isVisible);
 		vpr.setContent(content);
 		vpr.setAttribute(attributeName, attributeValue);
+		vpr.setName(name);
 		
 		return vpr;
 	}
