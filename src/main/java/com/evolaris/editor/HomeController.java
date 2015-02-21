@@ -1,5 +1,8 @@
 package com.evolaris.editor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.context.ApplicationContext;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.evolaris.editor.model.RawGallery;
+import com.evolaris.editor.model.RawPage;
 import com.evolaris.editor.model.RawPageResource;
 import com.evolaris.editor.model.VideoPageResource;
 import com.evolaris.editor.model.interfaces.IGallery;
@@ -41,7 +45,6 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/refresh", method = RequestMethod.GET, headers="Accept=*/*")
-	//public @ResponseBody
 	@ResponseStatus(value = HttpStatus.OK)
 	public String refreshPages(Model model) {
 		model.addAttribute("gallery", gallery);
@@ -74,10 +77,30 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/changeresource", method = RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void changeResource(@RequestParam("pageid") UUID pageId,
+	@ResponseBody
+	public String changeResource(@RequestParam("pageid") UUID pageId,
 							   @RequestParam("resource") String usedResource) {
-		gallery.changePageResourceToUsed(pageId, usedResource.toLowerCase());
+		if (usedResource != "") {
+			gallery.changePageResourceToUsed(pageId, usedResource.toLowerCase());
+			String resource = "{\"attributes\": {";
+			for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
+				if (res.getIsUsed()) {
+					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
+					for (Map.Entry<String, String> attribute : attributeMap.entrySet()) {
+						resource += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
+					}
+					if (res.canHaveContent()) {
+						resource += "\"Content\": \"" + res.getContent() + "\", ";
+					}
+					resource = resource.substring(0, resource.length() - 2) + "}";
+					resource += "}";
+				}
+			}
+			return resource;
+		} else {
+			((RawPage)gallery.findPageByID(pageId)).removeUsedResources();
+		}
+		return "";
 	}
 	
 	@RequestMapping(value = "/galleryattr", method = RequestMethod.GET)
@@ -95,17 +118,34 @@ public class HomeController {
 		gallery.setGalleryAttribute("transparency", transparency);
 	}
 	
-	@RequestMapping(value = "/checkresource", method = RequestMethod.GET)
+	@RequestMapping(value = "/checkpageattributes", method = RequestMethod.GET)
 	@ResponseBody
 	public String checkResourceUsed(@RequestParam("pageid") UUID pageId) {
-		String resource = "";
+		String attributes = "{\"pageAttributes\": {";
+		
+		HashMap<String, String> page = ((RawPage)gallery.findPageByID(pageId)).getPageAttributeMap();
+		
+		for (Map.Entry<String, String> attribute : page.entrySet()) {
+			attributes += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
+		}
+		
+		attributes = attributes.substring(0, attributes.length() - 2) + "}, ";
 		
 		for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
 			if (res.getIsUsed()) {
-				resource += "{\"resourceUsed\": \"" + res.getName() + 
-						"\", \"value\": \"" + res.getAttributeValue("path") + "\"}";
+				attributes += "\"resourceUsed\": {\"Resource\": \"" + res.getName() + 
+						"\", \"attributes\": {";
+				HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
+				for (Map.Entry<String, String> attribute : attributeMap.entrySet()) {
+					attributes += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
+				}
+				if (res.canHaveContent())
+					attributes += "\"Content\": \"" + res.getContent() + "\", ";
+				attributes = attributes.substring(0, attributes.length() - 2) + "}";
+				attributes += "}, ";
 			}
 		}
-		return resource;
+		attributes = attributes.substring(0, attributes.length() - 2) + "}";
+		return attributes;
 	}
 }

@@ -296,7 +296,7 @@ public class RawGallery implements IGallery{
 		pageList.remove(page);
 	}
 
-	private ArrayList<IPageResource> getPossiblePageResources() {
+	public ArrayList<IPageResource> getPossiblePageResources() {
 		return this.pageResourceList;
 	}
     

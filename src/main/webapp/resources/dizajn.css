@@ -2,7 +2,11 @@
 /* CSS Document */
 
 body{
-	background:#fff;
+/* 	background:#fff; */
+	background: -webkit-linear-gradient(left top, #6A81F6, #6CF4EF);
+    background: -o-linear-gradient(bottom right, #6A81F6, #6CF4EF);
+    background: -moz-linear-gradient(bottom right, #6A81F6, #6CF4EF);
+    background: linear-gradient(to bottom right, #6A81F6, #6CF4EF);
 }
 #container{
 	width:100%;
@@ -246,7 +250,6 @@ header{
     width: 80%;
 }
 #qr_code_preview {
-	border: 1px solid #000;
     float: left;
     height: 53px;
     margin: 10px;
@@ -285,12 +288,11 @@ header{
 
 #saveGalleryAttributes {
 	float: right;
-	margin-right: 2%;
-	margin-top: 5%;
+	margin-top: 3%;
 }
 
 .selected:not(.gallery) {
-	border: 5px solid #3366FF;
+	border: 5px solid #00006f;
 }
 
 input::-webkit-outer-spin-button,

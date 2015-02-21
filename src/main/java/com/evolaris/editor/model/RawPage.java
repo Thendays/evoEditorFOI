@@ -47,7 +47,11 @@ public class RawPage implements IPage{
     	pageDefined = false;
 	}
     
-    @Override
+    public void setPageResourceList(ArrayList<IPageResource> pageResourceList) {
+		this.pageResourceList = pageResourceList;
+	}
+
+	@Override
 	public IPage getInstance(UUID parentiD, int orderNumber,
 			ArrayList<String> pageAttributeNames,
 			ArrayList<IPageResource> pageResourceList,
@@ -120,7 +124,15 @@ public class RawPage implements IPage{
     	return pageAttributeMap.keySet();
     }
     
-    public ArrayList<IPageResource> getPageResources(){
+    public HashMap<String, String> getPageAttributeMap() {
+		return pageAttributeMap;
+	}
+
+	public void setPageAttributeMap(HashMap<String, String> pageAttributeMap) {
+		this.pageAttributeMap = pageAttributeMap;
+	}
+
+	public ArrayList<IPageResource> getPageResources(){
     	return this.pageResourceList;    	
     }    
     
@@ -177,6 +189,12 @@ public class RawPage implements IPage{
 	@Override
 	public boolean isPageDefined() {
 		return this.pageDefined;
+	}
+	
+	public void removeUsedResources() {
+		for (IPageResource resource : this.getPageResources()) {
+			resource.setIsUsed(false);
+		}
 	}
 }
 

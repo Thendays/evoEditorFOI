@@ -37,25 +37,6 @@ function addPage() {
 	});
 }
 
-function addSubPage() {
-	if (!$(".gallery:not(#left)").hasClass("selected")) {
-		var pages = $("#left .selected");
-		var uuid;
-		$.each(pages, function(idx, val) {
-			if ($(this).hasClass("selected"))
-				uuid = $(this).attr("id");
-		});
-		
-		$.ajax({
-			url: 'addpage.html',
-			data: {parentid: uuid},
-			success: function(data) {
-				refreshPages();
-			}
-		});
-	}
-}
-
 function deletePage() {
 	var uuid = $(this).closest(".pages").attr("id");
 	$.ajax({
@@ -169,25 +150,47 @@ function selectPage(e) {
 	e.stopPropagation();
 	
 	if ($("#left").hasClass("selected")) {
+		$('#resource option[value=""]').attr('selected','selected');
+		$("#attributes").find("tr:gt(0)").remove();
 		$("#resource").prop('disabled', 'disabled');
 	} else {
 		$("#resource").prop('disabled', false);
 	}
 	
-//	if (uuid !== null) {
-//		$.ajax({
-//			url: 'checkresource.html',
-//			data: {pageid: uuid},
-//			dataType: "json",
-//			success: function(data) {
-//				$("#resourceUsed").html(data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1));
-//				$("#fileName").html(data.value);
-//				$("#resource option").filter(function() {
-//				    return this.text === (data.resourceUsed.charAt(0).toUpperCase() + data.resourceUsed.slice(1)); 
-//				}).attr('selected', true);
-//			}
-//		});
-//	}
+	if (uuid !== null) {
+		$.ajax({
+			url: 'checkpageattributes.html',
+			data: {pageid: uuid},
+			dataType: "json",
+			success: function(data) {
+				$("#attributes").find("tr:gt(0)").remove();
+				$.each(data.pageAttributes, function(k, v) {
+					$("#attributes").append('<tr><td class="first_col">' + k 
+							+ '</td><td class="second_col"><div contenteditable>' + v + '</td></tr>');
+				});
+				
+				if (data.resourceUsed) {
+					$.each(data.resourceUsed, function(k, v) {
+						if (typeof v === "object") {
+							$.each(data.resourceUsed.attributes, function(k, v) {
+								if (k === "Content")
+									$("#attributes").append('<tr class="resourceAttributes"><td class="first_col">' + k 
+											+ '</td><td class="second_col"><div contenteditable>' + v + '</td></tr>');
+								else
+									$("#attributes").append('<tr><td class="first_col">' + k 
+										+ '</td><td class="second_col">' + v + '</td></tr>');
+							});
+						} else {
+							$("#attributes").append('<tr><td class="first_col">' + k 
+									+ '</td><td class="second_col">' + v + '</td></tr>');
+						}
+					});
+					$('#resource option[value="' + data.resourceUsed.Resource + '"]').attr('selected','selected');
+				} else
+					$('#resource option[value=""]').attr('selected','selected');
+			}
+		});
+	}
 }
 
 function attachEvents() {
@@ -229,14 +232,26 @@ $(document).on("change", "#resource", function() {
 			uuid = $(this).attr("id");
 	});
 	
-	$.ajax({
+	var ajax = $.ajax({
 		url: 'changeresource',
 		data: {pageid: uuid, resource: resource},
+		dataType: "json",
 		success: function(data) {
-			$("#resourceUsed").html(resource);
+			$.each(data.attributes, function(k, v) {
+				$("#attributes .resourceAttributes").remove();
+				if (k === "Content")
+					$("#attributes").append('<tr class="resourceAttributes"><td class="first_col">' + k 
+							+ '</td><td class="second_col"><div contenteditable>' + v + '</td></tr>');
+				else
+					$("#attributes").append('<tr class="resourceAttributes"><td class="first_col">' + k 
+							+ '</td><td class="second_col resourceAttributes">' + v + '</td></tr>');
+				});
+			},
+		error: function() {
+			$("#attributes .resourceAttributes").remove();
 		}
+		});
 	});
-});
 
 function saveGalleryAttributes() {
 	var repeat = null;

@@ -25,8 +25,8 @@
 		</constructor-arg>
 		<constructor-arg>
 			<util:list value-type="java.lang.String">
-				<value>description</value>
-				<value>confirmationText</value>
+				<value>Description</value>
+				<value>Confirmation text</value>
 			</util:list>
 		</constructor-arg>
 		<constructor-arg>
@@ -37,7 +37,7 @@
 					<property name="canHaveContent" value="false" />
 					<property name="attributeMap">
 						<map>
-							<entry key="path" value="" />
+							<entry key="Path" value="" />
 						</map>
 					</property>
 				</bean>
@@ -47,7 +47,15 @@
 					<property name="canHaveContent" value="true" />
 					<property name="content" value="" />
 				</bean>
-				<bean id="video" class="com.evolaris.editor.model.VideoPageResource" scope="prototype">
+				<bean id="video" class="com.evolaris.editor.model.RawPageResource" scope="prototype">
+					<property name="name" value="video" />
+					<property name="isUsed" value="false" />
+					<property name="canHaveContent" value="false" />
+					<property name="attributeMap">
+						<map>
+							<entry key="Path" value="" />
+						</map>
+					</property>
 				</bean>
 			</util:list>
 		</constructor-arg>
@@ -55,7 +63,8 @@
 			<bean class="com.evolaris.editor.model.EvoPageResourceRule" />
 		</constructor-arg>
 		<constructor-arg>
-			<bean class="com.evolaris.editor.model.RawPage" />
+			<bean class="com.evolaris.editor.model.RawPage">
+			</bean>
 		</constructor-arg>
 		<property name="galleryDefined" value="true" />
 		<property name="galleryAttributeMap">
@@ -69,9 +78,5 @@
 				<entry key="transparency" value="5" />
 			</map>
 		</property>
-	</bean>
-	
-	<bean id="dynamicContent" class="com.evolaris.editor.model.JSONObj" scope="prototype" />
-	
-	<bean id="page" class="com.evolaris.editor.model.RawPage" scope="prototype" />		
+	</bean>		
 </beans>

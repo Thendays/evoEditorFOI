@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="false" %>
@@ -43,10 +44,6 @@
         <div id="center">
         	<div id="center_main">
             	<div id="center_main_image">
-                <!--	<img src="resources/images/Placeholder.png"/>  -->
-                	<object width="613" height="143">
-                		<PARAM name="code" value="GalleryPreview.class">
-                 	</object>
                 </div>
                 <div id="center_main_text">
                 	<div id="center_main_text_button">
@@ -63,14 +60,10 @@
             </div>
             <div id="center_main_info" style="margin-top: 90px;">
             	<div class="first_half half table">
-                	<table>
+                	<table id="attributes">
                     	<tr>
-                        	<th class="first_col">Resource</th>
-                            <th class="second_col">Attribute</th>
-                        </tr>
-                    	<tr>
-                        	<td class="first_col" id="resourceUsed"></td>
-                            <td class="second_col" id="fileName"></td>
+                        	<th class="first_col">Attribute</th>
+                            <th class="second_col">Value</th>
                         </tr>
                     </table>
                 </div>
@@ -80,9 +73,11 @@
                 		Resource<br/>
                     </div>
                     <select name="resource" id="resource" disabled>
-                    	<option id="image">Image</option>
-                        <option id="video">Video</option>
-                        <option id="confirmation">Text</option>
+                    		<option selected value=""></option>
+                    	<c:forEach var="resource" items="${gallery.getPossiblePageResources()}">
+                    		<c:set var="resourceName" value="${fn:substring(resource.getName(),0,1)}" />
+                    		<option value="<c:out value="${resource.getName()}"></c:out>"><c:out value="${fn:toUpperCase(resourceName)}${fn:substring(resource.getName(),1, fn:length(resource.getName()))}"></c:out></option>
+                    	</c:forEach>  
                     </select>
                     <br/><br/>
                     <div class="half_text">
@@ -106,8 +101,8 @@
             <div class="half table">
                 	<table>
                     	<tr>
-                        	<th class="first_col">Resource</th>
-                            <th class="second_col">Attribute</th>
+                        	<th class="first_col">Attribute</th>
+                            <th class="second_col">Value</th>
                         </tr>
                     	<tr>
                         	<td class="first_col">Gallery name</td>
@@ -148,7 +143,7 @@
   				<input id="showIndicator" type="checkbox" name="showIndicator" value="showIndicator" <c:out value='${gallery.getGalleryAttribute("showIndicator")}'/>>Show indicator<br>
             </div>
             <div id="saveGalleryAttributes" onclick="saveGalleryAttributes.call()">
-            		<button><img src="resources/images/save.png" width="30px"/></button>
+            		<button ><img src="resources/images/save.png" width="30px"/></button>
             </div>
         </div>
     </div>
