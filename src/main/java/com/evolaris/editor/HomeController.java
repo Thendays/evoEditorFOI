@@ -3,6 +3,7 @@ package com.evolaris.editor;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
-
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.evolaris.editor.model.RawGallery;
 import com.evolaris.editor.model.RawPage;
@@ -42,6 +44,8 @@ public class HomeController {
 	private IGallery gallery;
 	
 	private ApplicationContext context;
+	
+	static Log log = LogFactory.getLog(HomeController.class.getName());
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
@@ -155,6 +159,36 @@ public class HomeController {
 		}
 		attributes = attributes.substring(0, attributes.length() - 2) + "}";
 		return attributes;
+	}
+	
+	@RequestMapping(value = "/savepageattributes", method = RequestMethod.GET)
+	public @ResponseBody void savePageAttributes(@RequestParam Map<String, String> params) {
+		
+		HashMap<String, String> pageAttributes = ((RawPage)gallery.findPageByID(UUID.fromString(params.get("pageid")))).getPageAttributeMap();
+		
+		for (Map.Entry<String, String> attribute : pageAttributes.entrySet()) {
+			for (Map.Entry<String, String> parameter : params.entrySet()) {
+				if (parameter.getKey().equalsIgnoreCase(attribute.getKey())) {
+					attribute.setValue(parameter.getValue());
+				}
+			}
+			
+			for (IPageResource res : gallery.findPageByID(UUID.fromString(params.get("pageid"))).getPageResources()) {
+				if (res.getIsUsed()) {					
+					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
+					
+					for (Map.Entry<String, String> parameter : params.entrySet()) {
+						if (parameter.getKey().equalsIgnoreCase("content")) 
+							res.setContent(parameter.getValue());
+							
+						for (Map.Entry<String, String> resAttribute : attributeMap.entrySet()) {
+							if (resAttribute.getKey().equalsIgnoreCase(parameter.getKey()))
+								res.setAttribute(resAttribute.getKey(), parameter.getValue());
+							}
+						}
+					}
+				}
+			}
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)

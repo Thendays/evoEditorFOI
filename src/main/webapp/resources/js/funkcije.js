@@ -259,6 +259,42 @@ $(document).on("change", "#resource", function() {
 		});
 	});
 
+$(document).on("click", "#add_attr", function() {
+	var pages = $("#left .selected");
+	var uuid = null;
+	$.each(pages, function(idx, val) {
+		if ($(this).hasClass("selected") && !$(this).hasClass("gallery"))
+			uuid = $(this).attr("id");
+	});
+	
+	var parameters = {
+			pageid: uuid
+	};
+	
+	var key = null;
+	var value = null;
+	
+	$("#attributes > tbody > tr:not(:first)").each(function() {
+		key = $(this).find("td:nth-child(1)").html();
+		if ($(this).find("td:nth-child(2) > div").length) {
+			value = $(this).find("td:nth-child(2) > div").html();
+		}
+		else {
+			value = $(this).find("td:nth-child(2)").html();
+		}
+		value = value.replace("\\", "\\\\");
+		parameters[key] = value;
+	});
+	
+	$.ajax({
+		url: 'savepageattributes.html',
+		data: parameters,
+			   
+		success: function(data) {
+		}
+	});
+});
+
 function saveGalleryAttributes() {
 	var repeat = null;
 	var showIndicator = null;
