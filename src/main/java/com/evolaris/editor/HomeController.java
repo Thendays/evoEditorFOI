@@ -1,9 +1,14 @@
 package com.evolaris.editor;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
+
+import org.apache.commons.lang3.RandomStringUtils;
 
 import com.evolaris.editor.model.RawGallery;
 import com.evolaris.editor.model.RawPage;
@@ -147,5 +155,48 @@ public class HomeController {
 		}
 		attributes = attributes.substring(0, attributes.length() - 2) + "}";
 		return attributes;
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String uploadFileHandler(Model model, 
+									@RequestParam("file") MultipartFile file,
+									@RequestParam("page") UUID pageId) {
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				
+				String rootPath = System.getProperty("catalina.home");
+                File dir = new File(rootPath + File.separator + "resources");
+                if (!dir.exists())
+                    dir.mkdirs();
+                String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'), file.getOriginalFilename().length());
+                File serverFile = new File(dir.getAbsolutePath()
+                        + File.separator 
+                        + String.format("%s", RandomStringUtils.randomAlphanumeric(8) 
+                        		+ ext));
+                
+                String fileName = serverFile.getAbsolutePath();
+                fileName = (fileName.substring(fileName.indexOf("resources"), fileName.length())).replace("\\", "\\\\");
+                
+                for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
+                	if (res.getIsUsed()) {
+                		res.setAttribute("Path", fileName);
+                	}
+                }
+                
+                BufferedOutputStream stream = new BufferedOutputStream(
+                        new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+			} catch (Exception e) {
+                System.out.println("You failed to upload " + file.getName() + " => " + e.getMessage());
+            }
+		} else {
+            System.out.println("You failed to upload " + file.getName()
+                    + " because the file was empty.");
+        }
+		model.addAttribute("gallery", gallery);
+		model.addAttribute("galleryID", gallery.getID());
+		return "index";
 	}
 }

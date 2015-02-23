@@ -80,13 +80,12 @@
                     	</c:forEach>  
                     </select>
                     <br/><br/>
-                    <div class="half_text">
-                    	Attribute<br/>
-                    </div>
-                    <input class="short" type="text" name="attr" placeholder="Attribute" style="width: 100%;"><br/>
-                    <button id="cloud_2"><img src="resources/images/cloud.png" width="13px"/></button>
-                    <button id="folder_2"><img src="resources/images/folder.png" width="13px"/></button>
-                    <button id="add_attr"><img src="resources/images/save.png" width="13px"/></button>
+                    <form method="POST" action="" enctype="multipart/form-data" id="uploadFile">
+	                    <input type="file" name="file" id="upload" disabled>
+	                    <input type="text" name="page" id="page" hidden>
+	                    <input type="submit" value="Upload" id="cloud_2" disabled>
+                    </form>
+                    <button id="add_attr" disabled><img src="resources/images/save.png" width="13px"/></button>
                     
                 </div>
             </div>

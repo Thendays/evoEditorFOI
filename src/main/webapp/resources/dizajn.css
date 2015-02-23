@@ -14,6 +14,14 @@ body{
 	border: 2px solid #000;
 }
 
+#add_attr {
+	float: right;
+}
+
+#upload {
+	width: 90%;
+}
+
 /*header*/
 header{
 	width:98%;
@@ -217,9 +225,6 @@ header{
 .half table th{
 	text-align:center;
 	font-size:bold;
-}
-#add_attr{
-	margin-left:30px;
 }
 
 /*desno*/

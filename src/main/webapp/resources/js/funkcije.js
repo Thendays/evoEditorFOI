@@ -153,8 +153,13 @@ function selectPage(e) {
 		$('#resource option[value=""]').attr('selected','selected');
 		$("#attributes").find("tr:gt(0)").remove();
 		$("#resource").prop('disabled', 'disabled');
+		$("#add_attr").prop('disabled', 'disabled');
+		$("#uploadFile input").prop('disabled', 'disabled');
 	} else {
 		$("#resource").prop('disabled', false);
+		$("#add_attr").prop('disabled', false);
+		$("#uploadFile input").prop('disabled', false);
+		$("#page").attr("value", uuid);
 	}
 	
 	if (uuid !== null) {
@@ -163,6 +168,7 @@ function selectPage(e) {
 			data: {pageid: uuid},
 			dataType: "json",
 			success: function(data) {
+				console.log(data);
 				$("#attributes").find("tr:gt(0)").remove();
 				$.each(data.pageAttributes, function(k, v) {
 					$("#attributes").append('<tr><td class="first_col">' + k 
