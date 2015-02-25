@@ -77,14 +77,6 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET, headers="Accept=*/*")
-	@ResponseStatus(value = HttpStatus.OK)
-	public String refreshPages(Model model) {
-		model.addAttribute("gallery", gallery);
-		model.addAttribute("parentPage", gallery.getID());
-		return "pageMenu";
-	}
-	
 	@RequestMapping(value = "/addpage", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void addPage(@RequestParam("parentid") UUID parentId) {
