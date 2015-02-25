@@ -339,3 +339,27 @@ function saveGalleryAttributes() {
 		}
 	});
 }
+
+$("#uploadFile").submit(function(e)
+		{
+		    var postData = $(this).serializeArray();
+		    var formURL = $(this).attr("action");
+		    $.ajax(
+		    {
+		        url : formURL,
+		        type: "POST",
+		        data : postData,
+		        success:function(data) 
+		        {
+		            //data: return data from server
+		        },
+		        error: function() 
+		        {
+		            //if fails      
+		        }
+		    });
+		    e.preventDefault(); //STOP default action
+		    e.unbind(); //unbind. to stop multiple form submit.
+		});
+		 
+		$("#uploadFile").submit(); //Submit  the FORM
