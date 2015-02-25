@@ -295,6 +295,14 @@ $(document).on("click", "#add_attr", function() {
 	});
 });
 
+$(document).on("click", "#export", function() {
+	$.ajax({
+		url: 'export.html',
+		success: function(data) {
+		}
+	});
+});
+
 function saveGalleryAttributes() {
 	var repeat = null;
 	var showIndicator = null;

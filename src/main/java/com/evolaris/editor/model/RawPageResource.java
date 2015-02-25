@@ -110,7 +110,7 @@ public class RawPageResource implements IPageResource {
 	}
 
 	@Override
-	public boolean isUsed() {
+	public boolean getIsUsed() {
 		return isUsed;
 	}
 

@@ -78,5 +78,8 @@
 				<entry key="transparency" value="5" />
 			</map>
 		</property>
+	</bean>
+	<bean id="generator" class="com.evolaris.editor.controller.XMLGenerator" scope="prototype">
+		<property name="indent" value="6" />
 	</bean>	
 </beans>

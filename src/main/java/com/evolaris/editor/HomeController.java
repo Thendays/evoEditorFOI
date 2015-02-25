@@ -2,18 +2,26 @@ package com.evolaris.editor;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,10 +31,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.InputSource;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.evolaris.editor.controller.XMLGenerator;
 import com.evolaris.editor.model.RawGallery;
 import com.evolaris.editor.model.RawPage;
 import com.evolaris.editor.model.RawPageResource;
@@ -44,6 +55,8 @@ public class HomeController {
 	private IGallery gallery;
 	
 	private ApplicationContext context;
+	private static final String DOCUMENT_TYPE_DEFINITION = "documentation.dtd";
+	private static final int BUFFER_SIZE = 4096;
 	
 	static Log log = LogFactory.getLog(HomeController.class.getName());
 	
@@ -96,7 +109,7 @@ public class HomeController {
 			gallery.changePageResourceToUsed(pageId, usedResource.toLowerCase());
 			String resource = "{\"attributes\": {";
 			for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-				if (res.isUsed()) {
+				if (res.getIsUsed()) {
 					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
 					for (Map.Entry<String, String> attribute : attributeMap.entrySet()) {
 						resource += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
@@ -135,7 +148,6 @@ public class HomeController {
 	public String checkResourceUsed(@RequestParam("pageid") UUID pageId) {
 		String attributes = "{\"pageAttributes\": {";
 		
-		// UREDITI! Interface..
 		HashMap<String, String> page = ((RawPage)gallery.findPageByID(pageId)).getPageAttributeMap();
 		
 		for (Map.Entry<String, String> attribute : page.entrySet()) {
@@ -145,7 +157,7 @@ public class HomeController {
 		attributes = attributes.substring(0, attributes.length() - 2) + "}, ";
 		
 		for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-			if (res.isUsed()) {
+			if (res.getIsUsed()) {
 				attributes += "\"resourceUsed\": {\"Resource\": \"" + res.getName() + 
 						"\", \"attributes\": {";
 				HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
@@ -175,7 +187,7 @@ public class HomeController {
 			}
 			
 			for (IPageResource res : gallery.findPageByID(UUID.fromString(params.get("pageid"))).getPageResources()) {
-				if (res.isUsed()) {					
+				if (res.getIsUsed()) {					
 					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
 					
 					for (Map.Entry<String, String> parameter : params.entrySet()) {
@@ -214,7 +226,7 @@ public class HomeController {
                 fileName = (fileName.substring(fileName.indexOf("resources"), fileName.length())).replace("\\", "\\\\");
                 
                 for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-                	if (res.isUsed()) {
+                	if (res.getIsUsed()) {
                 		res.setAttribute("Path", fileName);
                 	}
                 }
@@ -233,5 +245,96 @@ public class HomeController {
 		model.addAttribute("gallery", gallery);
 		model.addAttribute("galleryID", gallery.getID());
 		return "index";
+	}
+	
+	@RequestMapping(value = "/export", method = RequestMethod.GET)
+	public @ResponseBody 
+	void exportGallery(HttpServletResponse response) throws IOException {
+		XMLGenerator generator = context.getBean("generator", XMLGenerator.class);
+		generator.setFile(System.getProperty("catalina.home") + File.separator + gallery.getGalleryAttribute("name") + ".xml");
+		generator.generateXmlFile(gallery);
+		
+		byte[] buffer = new byte[1024];
+		
+		try {
+			FileOutputStream fos = new FileOutputStream(System.getProperty("catalina.home") + File.separator + gallery.getGalleryAttribute("name") + ".zip");
+			ZipOutputStream zos = new ZipOutputStream(fos);
+			ZipEntry ze = new ZipEntry(gallery.getGalleryAttribute("name") + ".xml");
+			zos.putNextEntry(ze);
+			
+			FileInputStream in = new FileInputStream(System.getProperty("catalina.home") + File.separator + gallery.getGalleryAttribute("name") + ".xml");
+			
+			int len;
+			while ((len = in.read(buffer)) > 0) {
+				zos.write(buffer, 0, len);
+			}
+			
+			in.close();
+			zos.closeEntry();
+			
+			ze = new ZipEntry(DOCUMENT_TYPE_DEFINITION);
+			zos.putNextEntry(ze);
+			
+			in = new FileInputStream(System.getProperty("catalina.home") 
+					+ File.separator + "resources" 
+					+ File.separator + DOCUMENT_TYPE_DEFINITION);
+			
+			while ((len = in.read(buffer)) > 0) {
+				zos.write(buffer, 0, len);
+			}
+			
+			in.close();
+			zos.closeEntry();
+			
+			for (IPage page : gallery.getChildPageList(gallery.getID())) {
+				for (IPageResource res : page.getPageResources()) {
+					if (res.getIsUsed()) {
+						HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
+						
+						for (Map.Entry<String, String> attribute : attributeMap.entrySet()) {
+							if (attribute.getKey().equalsIgnoreCase("path")) {
+								ze = new ZipEntry(attribute.getValue().replace("\\\\", "\\"));
+								zos.putNextEntry(ze);
+								
+								in = new FileInputStream(System.getProperty("catalina.home") + File.separator + attribute.getValue());
+								
+								while ((len = in.read(buffer)) > 0) {
+									zos.write(buffer, 0, len);
+								}
+								
+								in.close();
+								zos.closeEntry();
+							}
+						}
+					}
+				}
+			}
+			
+			zos.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		File file = new File(System.getProperty("catalina.home") + File.separator + gallery.getGalleryAttribute("name") + ".zip");
+			
+		FileInputStream in = new FileInputStream(file);
+		try {
+			response.setContentType("application/zip");
+			response.setContentLength((int) file.length());
+			response.setHeader("Content-Disposition", "attachment;filename=\"" + file.getAbsolutePath() + "\"");
+			OutputStream out = response.getOutputStream();
+			byte[] b = new byte[BUFFER_SIZE]; 
+			int bytesRead = -1;
+			
+			while ((bytesRead = in.read(b)) != -1) {
+				out.write(b, 0, bytesRead);
+			}
+			
+			in.close();
+			out.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}		
 	}
 }

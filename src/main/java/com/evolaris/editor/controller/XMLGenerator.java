@@ -78,6 +78,9 @@ public class XMLGenerator {
         for(String attributeName : gallery.getGalleryAttributeSet()){
         	String galleryAttributeValue = gallery.getGalleryAttribute(attributeName);
         	if(!galleryAttributeValue.isEmpty()){
+        		if (attributeName.equalsIgnoreCase("repeat") || attributeName.equalsIgnoreCase("showIndicator"))
+        			if (galleryAttributeValue.equals("checked"))
+        				galleryAttributeValue = "yes";
         		galleryElement.setAttribute(attributeName, galleryAttributeValue);
         	}
         }      
@@ -97,12 +100,13 @@ public class XMLGenerator {
             for(String attributeName : page.getPageAttributeSet()){
             	String pageAttributeValue = page.getPageAttribute(attributeName);
             	if(!pageAttributeValue.isEmpty()){
+            		attributeName = attributeName.toLowerCase().replace(" ", "");
             		pageElement.setAttribute(attributeName, pageAttributeValue);
             	}
             }
             
             for(IPageResource pageResource : page.getPageResources()){
-            	if(pageResource.isUsed()){
+            	if(pageResource.getIsUsed()){
             		//If path is NOT an empty string
             		Element element = document.createElement(pageResource.getName());
             		
@@ -110,6 +114,7 @@ public class XMLGenerator {
             		for(String attributeName : attributeSet){
             			String attributeValue = pageResource.getAttributeValue(attributeName);
             			if(!attributeValue.isEmpty()){
+            				attributeValue = attributeValue.replace("\\\\", "\\");
             				element.setAttribute(attributeName, attributeValue);
             			}
             		}
