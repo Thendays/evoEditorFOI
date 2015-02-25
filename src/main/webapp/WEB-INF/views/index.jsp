@@ -22,7 +22,7 @@
 
 </head>
 
-<body onload="refreshPages();">
+<body>
 
 	<div id="container">
 		<header>
