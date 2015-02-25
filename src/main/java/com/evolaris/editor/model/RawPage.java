@@ -36,6 +36,7 @@ public class RawPage implements IPage{
         for(IPageResource pageResource : pageResourceList){
     		this.pageResourceList.add(pageResource.clone());
     	}
+        this.pageResourceList.get(0).setIsUsed(true);
         
         this.pageAttributeMap = new HashMap<String, String>();
         for(String attributeName : pageAttributeNames){

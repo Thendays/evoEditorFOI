@@ -55,14 +55,15 @@
 				<div id="center_main">
 					<div id="center_main_image"></div>
 					<div id="center_main_text">
+<%-- 						<c:set var="selected_page" scope="session" value="${gallery.findPageByID(...)}"/> --%>
 						<c:choose>
-							<c:when test="${page.getUsedResourceName().equals('text')}">
+							<c:when test="${selected_page.getUsedResourceName().equals('text')}">
 								Text.
 							</c:when>
-							<c:when test="${page.getUsedResourceName().equals('image')}">
+							<c:when test="${selected_page.getUsedResourceName().equals('image')}">
 								Image.
 							</c:when>
-							<c:when test="${page.getUsedResourceName().equals('video')}">
+							<c:when test="${selected_page.getUsedResourceName().equals('video')}">
 								Video.
 							</c:when>
 							<c:otherwise>
