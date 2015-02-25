@@ -1,24 +1,15 @@
-
-//function refreshPages() {
-//	$.ajax({
-//		url: 'refresh',
-//		success: function(data) {
-//			$("#left").html(data);
-//			attachEvents();
-//			
-//			var galleryId = $("#left").attr("data-id");
-//			var pages = $("#left .pages");
-//			$.each(pages, function(idx, val) {
-//				if ($(this).attr("data-parentid") !== galleryId) {
-//					if (parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) <= 0.1)
-//						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.01));
-//					else
-//						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.1));
-//				}
-//			});
-//		}
-//	});
-//}
+function scalePages() {
+	var galleryId = $("#left").attr("data-id");
+	var pages = $("#left .pages");
+	$.each(pages, function(idx, val) {
+		if ($(this).attr("data-parentid") !== galleryId) {
+			if (parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) <= 0.1)
+				$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.01));
+			else
+				$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.1));
+			}
+		});
+}
 
 function refresh() {
 	$.ajax({
@@ -27,6 +18,8 @@ function refresh() {
 			document.open();
 			document.write(data);
 			document.close();
+			
+			scalePages();
 		}
 	});
 }
@@ -368,8 +361,7 @@ function saveGalleryAttributes() {
 	});
 }
 
-$("#uploadFile").submit(function(e)
-		{
+$("#uploadFile").submit(function(e){
 		    var postData = $(this).serializeArray();
 		    var formURL = $(this).attr("action");
 		    $.ajax(
