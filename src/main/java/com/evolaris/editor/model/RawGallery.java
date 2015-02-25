@@ -273,12 +273,15 @@ public class RawGallery implements IGallery{
 	 */
     public IPage findPageByID(UUID iD){
     	IPage retPage = null;
-    	for(IPage page : pageList){
-    		if(page.getId().compareTo(iD) == 0){
-    			retPage = page;
-    			break;
-    		}
+    	if(iD != null){
+    		for(IPage page : pageList){
+        		if(page.getId().compareTo(iD) == 0){
+        			retPage = page;
+        			break;
+        		}
+        	}
     	}
+    	
     	return retPage;
     }
 

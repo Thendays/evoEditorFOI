@@ -22,7 +22,7 @@
 
 </head>
 
-<body onload="refreshPages();">
+<body>
 
 	<div id="container">
 		<header>
@@ -58,29 +58,39 @@
 				<div id="center_main">
 					<div id="center_main_image"></div>
 					<div id="center_main_text">
-<%-- 						<c:set var="selected_page" scope="session" value="${gallery.findPageByID(...)}"/> --%>
+						<c:out value="${selectedPageUUID}"></c:out>
+						<c:set var="selected_page" scope="request" value="${gallery.findPageByID(selectedPageUUID)}"/>
+						<c:out value="${selectedPageUUID}"></c:out>
 						<c:choose>
-							<c:when test="${selected_page.getUsedResourceName().equals('text')}">
-								Text.
-							</c:when>
-							<c:when test="${selected_page.getUsedResourceName().equals('image')}">
-								Image.
-							</c:when>
-							<c:when test="${selected_page.getUsedResourceName().equals('video')}">
-								Video.
+							<c:when test="${empty selected_page}"> 
+<!-- 							Nije odabrana nijedna stranica      -->
 							</c:when>
 							<c:otherwise>
-								NO resource found...
+								<c:choose>
+									<c:when test="${selected_page.getUsedResourceName().equals('text')}">
+										Text.
+									</c:when>
+									<c:when test="${selected_page.getUsedResourceName().equals('image')}">
+										Image.
+									</c:when>
+									<c:when test="${selected_page.getUsedResourceName().equals('video')}">
+										Video.
+									</c:when>
+									<c:otherwise>
+										NO resource found...
+									</c:otherwise>
+								</c:choose>
+								<div id="description_preview">
+									<div id="description_preview_label">Description:</div>
+									<div id="description_preview_content">TEXT</div>
+								</div>
+								<div id="confirmation_text_preview">
+									<div id="confirmation_text_preview_label">Confirmation text:</div>
+									<div id="confirmation_text_preview_content">TEXT</div>
+								</div>
 							</c:otherwise>
 						</c:choose>
-						<div id="description_preview">
-							<div id="description_preview_label">Description:</div>
-							<div id="description_preview_content">TEXT</div>
-						</div>
-						<div id="confirmation_text_preview">
-							<div id="confirmation_text_preview_label">Confirmation text:</div>
-							<div id="confirmation_text_preview_content">TEXT</div>
-						</div>
+						
 						<div id="center_main_text_button">
 							<button id="play">
 								<img src="resources/images/play.png" width="30px" />
@@ -101,12 +111,27 @@
 				</div>
 				<div id="center_main_info" style="margin-top: 90px;">
 					<div class="first_half half table">
-						<table id="attributes">
-							<tr>
-								<th class="first_col">Attribute</th>
-								<th class="second_col">Value</th>
-							</tr>
-						</table>
+						<c:choose>
+							<c:when test="${empty selected_page}"> 
+<!-- 							Nije odabrana nijedna stranica      -->
+							</c:when>
+							<c:otherwise>
+								<table id="attributes">
+									<tr>
+										<th class="first_col">Attribute</th>
+										<th class="second_col">Value</th>
+									</tr>
+									<c:forEach var="attribute" items="${selected_page.getPageAttributeSet()}">
+										<tr class="first_col">
+											<c:out value="${attribute}"></c:out>
+										</tr>
+										<tr class="second_col">
+											<c:out value="${selected_page.getPageAttribute(attribute)}"></c:out>
+										</tr>
+									</c:forEach>
+	   							</table>
+   							 </c:otherwise>
+						</c:choose>	
 					</div>
 
 					<div class="second_half half">
@@ -114,13 +139,8 @@
 							Resource<br />
 						</div>
 						<select name="resource" id="resource" disabled>
-							<option selected value=""></option>
-							<c:forEach var="resource"
-								items="${gallery.getPossiblePageResources()}">
-								<c:set var="resourceName"
-									value="${fn:substring(resource.getName(),0,1)}" />
-								<option value="<c:out value="${resource.getName()}"></c:out>"><c:out
-										value="${fn:toUpperCase(resourceName)}${fn:substring(resource.getName(),1, fn:length(resource.getName()))}"></c:out></option>
+							<c:forEach var="resource" items="${gallery.getPossiblePageResources()}">
+								
 							</c:forEach>
 						</select> <br />
 						<br />

@@ -141,6 +141,23 @@ function chngTransparency(e) {
 	}
 }
 
+function selectPage2(e) {
+	var pages = $("#left").find(".selected");
+	var uuid = null;	
+		
+	if ($(this).attr("id") !== "left")
+		uuid = $(this).attr("id");
+	e.stopPropagation();
+	
+	$.ajax({
+		url: 'pageselected.html',
+		data: {pageid: uuid},
+		success: function(data) {
+		}
+	});
+	refresh();
+}
+
 function selectPage(e) {
 	
 	var pages = $("#left").find(".selected");
