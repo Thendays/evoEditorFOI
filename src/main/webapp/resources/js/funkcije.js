@@ -1,21 +1,32 @@
 
-function refreshPages() {
+//function refreshPages() {
+//	$.ajax({
+//		url: 'refresh',
+//		success: function(data) {
+//			$("#left").html(data);
+//			attachEvents();
+//			
+//			var galleryId = $("#left").attr("data-id");
+//			var pages = $("#left .pages");
+//			$.each(pages, function(idx, val) {
+//				if ($(this).attr("data-parentid") !== galleryId) {
+//					if (parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) <= 0.1)
+//						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.01));
+//					else
+//						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.1));
+//				}
+//			});
+//		}
+//	});
+//}
+
+function refresh() {
 	$.ajax({
-		url: 'refresh',
+		url: 'refr.html',
 		success: function(data) {
-			$("#left").html(data);
-			attachEvents();
-			
-			var galleryId = $("#left").attr("data-id");
-			var pages = $("#left .pages");
-			$.each(pages, function(idx, val) {
-				if ($(this).attr("data-parentid") !== galleryId) {
-					if (parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) <= 0.1)
-						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.01));
-					else
-						$(this).css("zoom", String(parseFloat($("#" + $(this).attr("data-parentid")).css("zoom")) - 0.1));
-				}
-			});
+			document.open();
+			document.write(data);
+			document.close();
 		}
 	});
 }
@@ -32,7 +43,7 @@ function addPage() {
 		url: 'addpage.html',
 		data: {parentid: uuid},
 		success: function(data) {
-			refreshPages();
+			refresh()
 		}
 	});
 }
@@ -43,7 +54,7 @@ function deletePage() {
 		url: 'deletepage.html',
 		data: {pageid: uuid},
 		success: function(data) {
-			refreshPages();
+			refresh();
 		}
 	});
 }
@@ -57,7 +68,7 @@ function movePage(e, direction) {
 					url: 'pageup.html',
 					data: {pageid: uuid},
 					success: function(data) {
-						refreshPages();
+						refresh();
 					}
 				});
 			}
@@ -67,7 +78,7 @@ function movePage(e, direction) {
 					url: 'pagedown.html',
 					data: {pageid: uuid},
 					success: function(data) {
-						refreshPages();
+						refresh();
 					}
 				});
 			}
@@ -77,7 +88,7 @@ function movePage(e, direction) {
 			url: 'pageup.html',
 			data: {pageid: uuid},
 			success: function(data) {
-				refreshPages();
+				refresh();
 			}
 		});
 	} else if(direction === "down") {
@@ -85,7 +96,7 @@ function movePage(e, direction) {
 			url: 'pagedown.html',
 			data: {pageid: uuid},
 			success: function(data) {
-				refreshPages();
+				refresh();
 			}
 		});
 	}
@@ -335,7 +346,7 @@ function saveGalleryAttributes() {
 			   transparency: transparency},
 			   
 		success: function(data) {
-			refreshPages();
+			refresh();
 		}
 	});
 }

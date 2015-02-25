@@ -69,6 +69,14 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/refr", method = RequestMethod.GET, headers="Accept=*/*")
+	@ResponseStatus(value = HttpStatus.OK)
+	public String refresh(Model model) {
+		model.addAttribute("gallery", gallery);
+		model.addAttribute("galleryID", gallery.getID());
+		return "index";
+	}
+	
 	@RequestMapping(value = "/refresh", method = RequestMethod.GET, headers="Accept=*/*")
 	@ResponseStatus(value = HttpStatus.OK)
 	public String refreshPages(Model model) {
@@ -103,29 +111,11 @@ public class HomeController {
 	
 	@RequestMapping(value = "/changeresource", method = RequestMethod.GET)
 	@ResponseBody
-	public String changeResource(@RequestParam("pageid") UUID pageId,
+	public void changeResource(@RequestParam("pageid") UUID pageId,
 							   @RequestParam("resource") String usedResource) {
 		if (usedResource != "") {
 			gallery.changePageResourceToUsed(pageId, usedResource.toLowerCase());
-			String resource = "{\"attributes\": {";
-			for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-				if (res.getIsUsed()) {
-					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
-					for (Map.Entry<String, String> attribute : attributeMap.entrySet()) {
-						resource += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
-					}
-					if (res.canHaveContent()) {
-						resource += "\"Content\": \"" + res.getContent() + "\", ";
-					}
-					resource = resource.substring(0, resource.length() - 2) + "}";
-					resource += "}";
-				}
-			}
-			return resource;
-		} else {
-			((RawPage)gallery.findPageByID(pageId)).removeUsedResources();
-		}
-		return "";
+		} 
 	}
 	
 	@RequestMapping(value = "/galleryattr", method = RequestMethod.GET)
@@ -145,33 +135,9 @@ public class HomeController {
 	
 	@RequestMapping(value = "/checkpageattributes", method = RequestMethod.GET)
 	@ResponseBody
-	public String checkResourceUsed(@RequestParam("pageid") UUID pageId) {
-		String attributes = "{\"pageAttributes\": {";
-		
-		HashMap<String, String> page = ((RawPage)gallery.findPageByID(pageId)).getPageAttributeMap();
-		
-		for (Map.Entry<String, String> attribute : page.entrySet()) {
-			attributes += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
-		}
-		
-		attributes = attributes.substring(0, attributes.length() - 2) + "}, ";
-		
-		for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-			if (res.getIsUsed()) {
-				attributes += "\"resourceUsed\": {\"Resource\": \"" + res.getName() + 
-						"\", \"attributes\": {";
-				HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
-				for (Map.Entry<String, String> attribute : attributeMap.entrySet()) {
-					attributes += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
-				}
-				if (res.canHaveContent())
-					attributes += "\"Content\": \"" + res.getContent() + "\", ";
-				attributes = attributes.substring(0, attributes.length() - 2) + "}";
-				attributes += "}, ";
-			}
-		}
-		attributes = attributes.substring(0, attributes.length() - 2) + "}";
-		return attributes;
+	public void checkResourceUsed(@RequestParam("pageid") UUID pageId,
+			Model model) {
+		//model.addAttribute("usedResources", attributeValue)
 	}
 	
 	@RequestMapping(value = "/savepageattributes", method = RequestMethod.GET)

@@ -49,7 +49,10 @@
 
 			<div id="left" class="gallery"
 				data-id="<c:out value="${galleryID}"/>"
-				onclick="selectPage.call(this, event)"></div>
+				onclick="selectPage.call(this, event)">
+				<c:set var="parentPage" value="${galleryID}" scope="request"/>
+				<jsp:include page="pageMenu.jsp"/>
+			</div>
 
 			<div id="center">
 				<div id="center_main">
