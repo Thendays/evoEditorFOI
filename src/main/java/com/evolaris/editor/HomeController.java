@@ -96,7 +96,7 @@ public class HomeController {
 			gallery.changePageResourceToUsed(pageId, usedResource.toLowerCase());
 			String resource = "{\"attributes\": {";
 			for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-				if (res.getIsUsed()) {
+				if (res.isUsed()) {
 					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
 					for (Map.Entry<String, String> attribute : attributeMap.entrySet()) {
 						resource += "\"" + attribute.getKey() + "\": \"" + attribute.getValue() + "\", ";
@@ -135,6 +135,7 @@ public class HomeController {
 	public String checkResourceUsed(@RequestParam("pageid") UUID pageId) {
 		String attributes = "{\"pageAttributes\": {";
 		
+		// UREDITI! Interface..
 		HashMap<String, String> page = ((RawPage)gallery.findPageByID(pageId)).getPageAttributeMap();
 		
 		for (Map.Entry<String, String> attribute : page.entrySet()) {
@@ -144,7 +145,7 @@ public class HomeController {
 		attributes = attributes.substring(0, attributes.length() - 2) + "}, ";
 		
 		for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-			if (res.getIsUsed()) {
+			if (res.isUsed()) {
 				attributes += "\"resourceUsed\": {\"Resource\": \"" + res.getName() + 
 						"\", \"attributes\": {";
 				HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
@@ -174,7 +175,7 @@ public class HomeController {
 			}
 			
 			for (IPageResource res : gallery.findPageByID(UUID.fromString(params.get("pageid"))).getPageResources()) {
-				if (res.getIsUsed()) {					
+				if (res.isUsed()) {					
 					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
 					
 					for (Map.Entry<String, String> parameter : params.entrySet()) {
@@ -213,7 +214,7 @@ public class HomeController {
                 fileName = (fileName.substring(fileName.indexOf("resources"), fileName.length())).replace("\\", "\\\\");
                 
                 for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
-                	if (res.getIsUsed()) {
+                	if (res.isUsed()) {
                 		res.setAttribute("Path", fileName);
                 	}
                 }

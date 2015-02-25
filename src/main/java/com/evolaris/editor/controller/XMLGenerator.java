@@ -102,7 +102,7 @@ public class XMLGenerator {
             }
             
             for(IPageResource pageResource : page.getPageResources()){
-            	if(pageResource.getIsUsed()){
+            	if(pageResource.isUsed()){
             		//If path is NOT an empty string
             		Element element = document.createElement(pageResource.getName());
             		

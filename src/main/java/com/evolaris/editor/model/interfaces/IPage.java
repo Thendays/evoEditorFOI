@@ -118,6 +118,12 @@ public interface IPage extends Comparable<IPage>{
      * @param pageResourceName
      */
     public void usePageResource(String pageResourceName);
+    
+    /**
+     * returns the name of resource that is used
+     * @return
+     */
+    public String getUsedResourceName();
 
     /**
      * Change value of resource attribute attributeName on current page to attributeValue.

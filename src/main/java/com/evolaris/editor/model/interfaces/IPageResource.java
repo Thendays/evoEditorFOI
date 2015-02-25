@@ -32,7 +32,7 @@ public interface IPageResource {
 	 * Flag that indicates if the resource should be visible in the final XML
 	 * @return
 	 */
-	public boolean getIsUsed();
+	public boolean isUsed();
 	
 	/**
 	 * Defines if the resource should be visible in the final XML

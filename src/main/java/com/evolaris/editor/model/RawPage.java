@@ -36,6 +36,7 @@ public class RawPage implements IPage{
         for(IPageResource pageResource : pageResourceList){
     		this.pageResourceList.add(pageResource.clone());
     	}
+        this.pageResourceList.get(0).setIsUsed(true);
         
         this.pageAttributeMap = new HashMap<String, String>();
         for(String attributeName : pageAttributeNames){
@@ -195,6 +196,18 @@ public class RawPage implements IPage{
 		for (IPageResource resource : this.getPageResources()) {
 			resource.setIsUsed(false);
 		}
+	}
+
+	@Override
+	public String getUsedResourceName() {
+		String resourceName = "";
+		for (IPageResource resource : this.getPageResources()) {
+			if(resource.isUsed()){
+				resourceName = resource.getName();
+				break;
+			}
+		}
+		return resourceName;
 	}
 }
 

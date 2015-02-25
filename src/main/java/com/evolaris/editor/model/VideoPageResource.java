@@ -52,7 +52,7 @@ public class VideoPageResource implements IPageResource {
 	}
 
 	@Override
-	public boolean getIsUsed() {		
+	public boolean isUsed() {		
 		return isVisible;
 	}
 
