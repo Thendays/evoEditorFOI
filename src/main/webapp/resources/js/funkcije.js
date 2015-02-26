@@ -25,12 +25,7 @@ function refresh() {
 }
 
 function addPage() {
-	var pages = $("#left .selected");
-	var uuid = $("#left").attr("data-id");
-	$.each(pages, function(idx, val) {
-		if ($(this).hasClass("selected"))
-			uuid = $(this).attr("id");
-	});
+	var uuid = ($(this).attr("id") === "add_slide")?$("#left").attr("data-id"):$("#left .selected").attr("id");
 	
 	$.ajax({
 		url: 'addpage.html',
@@ -224,6 +219,8 @@ function selectPage(e) {
 //}
 
 function attachEvents() {
+	$("#add_slide, #add_subPage").on("click", null, this, addPage);
+	
 	$('.pages').each(function(i) { 
 		$.each($(this).find(":button.delete_1"), function() {
 			$(this).on("click", null, this, deletePage);

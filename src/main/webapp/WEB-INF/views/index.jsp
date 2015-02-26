@@ -108,9 +108,6 @@
 						<c:choose>
 							<c:when test="${empty selected_item}">
 								<!-- 	Nije odabrana stranica      -->
-							</c:when>
-							<c:when test="${selected_item.getId() == galleryID}">
-								<!-- 	Nije odabrana stranica      -->
 							</c:when>							
 							<c:otherwise>
 								<table id="attributes">
@@ -139,40 +136,37 @@
 							Resource<br />
 						</div>
 						<c:choose>
-							<c:when test="${galleryID == selected_item.getId()}"> 
+							<c:when test="${empty selected_item}">
 								<c:set var="isDisabled" scope="request" value="disabled"/>
 							</c:when>
 							<c:otherwise>
 								<c:set var="isDisabled" scope="request" value="dfdf"/>
 							</c:otherwise>
 						</c:choose>
-						<c:choose>
-							<c:when test="${empty selected_item}">
-							<!-- 	Nije odabrana stranica      -->
-							</c:when>
-							<c:when test="${selected_item.getId() == galleryID}">
-							<!-- 	Nije odabrana stranica      -->
-							</c:when>						
-							<c:otherwise>
-								<select name="resource" id="resource" <c:out value="${isDisabled}"></c:out>>
-									<c:set var="first_resource" scope="application" value="${gallery.getPossiblePageResources(selected_item.getId()).get(0)}"/>
-									<c:forEach var="resource" items="${gallery.getPossiblePageResources(selected_item.getId())}">
-										<c:choose>
-											<c:when test="${resource.getName().equals(first_resource.getName())}"> 
-												<option value="<c:out value="${resource.getName()}"></c:out>" selected>
-													<c:out value="${resource.getName()}"></c:out>
-												</option>
-											</c:when>
-											<c:otherwise>
-												<option value="<c:out value="${resource.getName()}"></c:out>">
-													<c:out value="${resource.getName()}"></c:out>
-												</option>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</select>
-							</c:otherwise>
-						</c:choose>						
+						<select name="resource" id="resource" <c:out value="${isDisabled}"></c:out>>
+							<c:choose>
+								<c:when test="${empty selected_item}">
+								<!-- 	Nije odabrana stranica      -->
+								</c:when>						
+								<c:otherwise>								
+										<c:set var="first_resource" scope="application" value="${gallery.getPossiblePageResources(selected_item.getId()).get(0)}"/>
+										<c:forEach var="resource" items="${gallery.getPossiblePageResources(selected_item.getId())}">
+											<c:choose>
+												<c:when test="${resource.getName().equals(first_resource.getName())}"> 
+													<option value="<c:out value="${resource.getName()}"></c:out>" selected>
+														<c:out value="${resource.getName()}"></c:out>
+													</option>
+												</c:when>
+												<c:otherwise>
+													<option value="<c:out value="${resource.getName()}"></c:out>">
+														<c:out value="${resource.getName()}"></c:out>
+													</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>									
+								</c:otherwise>
+							</c:choose>
+						</select>					
 						<br />
 						<br />
 						<form method="POST" action="" enctype="multipart/form-data"
