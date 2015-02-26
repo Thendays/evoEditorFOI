@@ -129,10 +129,10 @@
 									<c:forEach var="resource" items="${selected_item.getUsedResourceList()}">
 										<tr>
 											<td class="first_col">
-												<c:out value="${resource.getName()}"></c:out>
+												<!-- 												Empty... -->
 											</td>											
 											<td class="second_col">
-<!-- 												Empty... -->
+												<c:out value="${resource.getName()}"></c:out>
 											</td>
 										</tr>
 										<tr>
@@ -143,7 +143,15 @@
 												<td class="second_col">
 													<c:out value="${resource.getAttributeValue(resource_attribute)}"></c:out>
 												</td>
-											</c:forEach>																						
+											</c:forEach>
+											<c:if test="${resource.canHaveContent()}">
+												<td class="first_col">
+													<c:out value="Content"></c:out>
+												</td>											
+												<td class="second_col">
+													<c:out value="${resource.getContent()}"></c:out>
+												</td>
+											</c:if>																						
 										</tr>
 									</c:forEach>									
 	   							</table>								
