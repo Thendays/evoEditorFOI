@@ -144,10 +144,10 @@
 						</div>
 						<c:choose>
 							<c:when test="${empty selected_item}">
-								<!-- 	Nije odabrana stranica      -->
+							<!-- 	Nije odabrana stranica      -->
 							</c:when>
 							<c:when test="${selected_item.getId() == galleryID}">
-								<!-- 	Nije odabrana stranica      -->
+							<!-- 	Nije odabrana stranica      -->
 							</c:when>						
 							<c:otherwise>
 								<select name="resource" id="resource" disabled>
