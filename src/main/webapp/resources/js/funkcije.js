@@ -238,17 +238,17 @@ function attachEvents() {
 				});
 			});
 		
-		$.each($(this).find(":input"), function() {
-			$(this).on("click", function(e) {
-				$(this).focus();
-				this.oldvalue = this.value;
-				return false;
-			});
-			
-			$(this).change(function() {
-				changePageOrder(this);
-			});
-		});
+//		$.each($(this).find(":input"), function() {
+//			$(this).on("click", function(e) {
+//				$(this).focus();
+//				this.oldvalue = this.value;
+//				return false;
+//			});
+//			
+//			$(this).change(function() {
+//				changePageOrder(this);
+//			});
+//		});
 	});
 }
 

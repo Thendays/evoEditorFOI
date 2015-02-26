@@ -32,9 +32,9 @@
 		<div class="slide_image">
 			<img src="resources/images/<c:out value="${page.getUsedResourceName()}"></c:out>.png"/>
 			<div class="slide_number">
-				<input type=" number" name="quantity"
+				<input type="number" name="quantity"
 				min="1" max="1000"
-				value="<c:out value="${page.getOrderNumber() + 1}"></c:out>" >
+				value="<c:out value="${page.getOrderNumber() + 1}"></c:out>" disabled="disabled">
 			</div>
 		</div>
 	</div>
