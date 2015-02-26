@@ -45,15 +45,11 @@ header{
 /*lijevo*/
 .gallery{
 	float:left;
-	overflow-y:hidden;
+	overflow-y: auto;
 	border-right: 1px solid #000;
 /* 	width:270px; */
 	width: 22%;
 	height:588px;
-}
-
-#galleryScroll {
-	overflow-y: auto;
 }
 
 .pages{
@@ -121,7 +117,7 @@ header{
 #center{
 	float:left;
 	width: 55%;
-	height:588px;
+	height: 70%;
 }
 #center #center_main {
 	width: 100%;
@@ -178,7 +174,6 @@ header{
 .first_half {
 	width: 55%;
 	margin-top: 40px;
-	height: 80px;
 }
 .second_half {
 	width: 38%;
@@ -207,21 +202,16 @@ header{
 }
 .half table{
 	border: 1px solid #ccc;
-	width:95%;
 }
 .table {
-	overflow-y:hidden;
-}
-
-#tableScroll {
 	overflow-y:auto;
+	overflow-x: hidden;
 }
-
 .half table tr{
 	width:100%;
 }
 .half table .first_col{
-	width:100%;
+	width:30%;
 	padding:5px;
 	border: 1px solid #ccc;
 }
