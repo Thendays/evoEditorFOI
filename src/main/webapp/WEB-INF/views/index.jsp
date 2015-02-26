@@ -22,16 +22,15 @@
 
 </head>
 
-<body onclick="selectPage.call(this, event)">
+<body>
 	<c:set var="selected_item" scope="application" value="${gallery.findPageByID(selectedItemUUID)}"/>
 	<div id="container">
 		<header>
 			<button id="add_slide" onclick="addPage()">
-				<img src="resources/images/plus.png" width="12px" />&nbsp;Add new
-				slide
+				<img src="resources/images/plus.png" width="12px" />&nbsp;Add new page
 			</button>
-			<button id="play">
-				<img src="resources/images/preview_eye.png" width="12px" />&nbsp;Preview
+			<button id="add_subPage" onclick="addPage()">
+				<img src="resources/images/preview_eye.png" width="12px" />&nbsp;Add new subpage
 			</button>
 			<button id="undo">
 				<img src="resources/images/undo.png" width="12px" />
@@ -47,9 +46,7 @@
 		</header>
 		<div id="main">
 
-			<div id="left" class="gallery"
-				data-id="<c:out value="${galleryID}"/>"
-				onclick="selectPage.call(this, event)">
+			<div id="left" class="gallery" data-id="<c:out value="${galleryID}"/>">
 					<c:set var="parentPage" value="${galleryID}" scope="application"/>
 					<jsp:include page="pageMenu.jsp"/>
 			</div>

@@ -89,17 +89,13 @@ public class HomeController {
 		log.info("page ID = " + pageId);
 		if(pageId != null){
 			this.selectedItemUUID = pageId;
-		}else{
-			this.selectedItemUUID = gallery.getID();
 		}		
 	}
 	
 	@RequestMapping(value = "/addpage", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void addPage(@RequestParam("parentid") UUID parentId) {
-		gallery.addBlankPage(parentId);
-		
-		
+	public void addPage(@RequestParam("parentid") UUID parentId) {		
+		selectedItemUUID = gallery.addBlankPage(parentId);		
 	}
 	
 	@RequestMapping(value = "/deletepage", method = RequestMethod.GET)

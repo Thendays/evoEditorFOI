@@ -139,7 +139,6 @@ function chngTransparency(e) {
 }
 
 function selectPage(e) {
-	var pages = $("#left").find(".selected");
 	var uuid = null;	
 		
 	if ($(this).attr("class") === "pages")
