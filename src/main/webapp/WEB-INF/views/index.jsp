@@ -121,7 +121,9 @@
 												<c:out value="${attribute}"></c:out>
 											</td>											
 											<td class="second_col">
-												<c:out value="${selected_item.getPageAttribute(attribute)}"></c:out>
+												<div contenteditable>
+													<c:out value="${selected_item.getPageAttribute(attribute)}"></c:out>
+												</div>
 											</td>											
 										</tr>
 									</c:forEach>
@@ -132,7 +134,7 @@
 												<!-- 												Empty... -->
 											</td>											
 											<td class="second_col">
-												<c:out value="${resource.getName()}"></c:out>
+												<c:out value="${resource.getName().toUpperCase()}"></c:out>
 											</td>
 										</tr>
 										<tr>
@@ -141,7 +143,9 @@
 													<c:out value="${resource_attribute}"></c:out>
 												</td>											
 												<td class="second_col">
-													<c:out value="${resource.getAttributeValue(resource_attribute)}"></c:out>
+													<div contenteditable>
+														<c:out value="${resource.getAttributeValue(resource_attribute)}"></c:out>
+													</div>													
 												</td>
 											</c:forEach>
 											<c:if test="${resource.canHaveContent()}">
@@ -149,7 +153,9 @@
 													<c:out value="Content"></c:out>
 												</td>											
 												<td class="second_col">
-													<c:out value="${resource.getContent()}"></c:out>
+													<div contenteditable>
+														<c:out value="${resource.getContent()}"></c:out>
+													</div>
 												</td>
 											</c:if>																						
 										</tr>
@@ -201,7 +207,7 @@
 							<input type="text" name="page" id="page" hidden>
 							<input type="submit" value="Upload" id="cloud_2" <c:out value="${isDisabled}"></c:out>>
 						</form>
-						<button id="add_attr" disabled>
+						<button id="add_attr" <c:out value="${isDisabled}"></c:out>>
 							<img src="resources/images/save.png" width="13px" />
 						</button>
 
