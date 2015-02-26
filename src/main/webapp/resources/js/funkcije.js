@@ -136,9 +136,9 @@ function chngTransparency(e) {
 
 function selectPage(e) {
 	var pages = $("#left").find(".selected");
-	var uuid = $("#left").attr("data-id");	
+	var uuid = null;	
 		
-	if ($(this).attr("id") !== "left")
+	if ($(this).attr("class") === "pages")
 		uuid = $(this).attr("id");
 	e.stopPropagation();
 	
@@ -146,9 +146,9 @@ function selectPage(e) {
 		url: 'pageselected.html',
 		data: {pageid: uuid},
 		success: function(data) {
+			refresh();
 		}
 	});
-	refresh();
 }
 
 //function selectPage(e) {

@@ -22,7 +22,7 @@
 
 </head>
 
-<body>
+<body onclick="selectPage.call(this, event)">
 	<c:set var="selected_item" scope="application" value="${gallery.findPageByID(selectedItemUUID)}"/>
 	<div id="container">
 		<header>

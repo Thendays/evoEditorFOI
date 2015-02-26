@@ -98,6 +98,8 @@ public class HomeController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void addPage(@RequestParam("parentid") UUID parentId) {
 		gallery.addBlankPage(parentId);
+		
+		
 	}
 	
 	@RequestMapping(value = "/deletepage", method = RequestMethod.GET)
