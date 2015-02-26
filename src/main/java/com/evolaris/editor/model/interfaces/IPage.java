@@ -135,8 +135,14 @@ public interface IPage extends Comparable<IPage>{
     public void editResourceContent(String resourceName, String content);
     
     /**
-     * returns the name of resource that is used
+     * returns the resource that is used
      * @return
      */
-    public String getUsedResourceName();
+    public IPageResource getUsedResource();
+    
+    /**
+     * returns the list of resources that are used
+     * @return
+     */
+    public ArrayList<IPageResource> getUsedResourceList();
 }

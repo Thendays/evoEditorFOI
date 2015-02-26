@@ -30,7 +30,7 @@
 			<button class="down_1"><img src="resources/images/down.png" width="10px" height="10"/></button>
 		</div>
 		<div class="slide_image">
-			<img src="resources/images/<c:out value="${page.getUsedResourceName()}"></c:out>.png"/>
+			<img src="resources/images/<c:out value="${page.getUsedResource().getName()}"></c:out>.png"/>
 			<div class="slide_number">
 				<input type="number" name="quantity"
 				min="1" max="1000"

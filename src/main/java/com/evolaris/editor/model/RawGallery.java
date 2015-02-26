@@ -121,7 +121,6 @@ public class RawGallery implements IGallery{
     			getPossiblePageAttributeList(),
     			getPossiblePageResources(),
     			getPageResourceRule());
-    	
     	pageList.add(newPage);
     	return newPage.getId();
     }

@@ -61,13 +61,13 @@
 							</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${selected_item.getUsedResourceName().equals('text')}">
+									<c:when test="${page.getUsedResource().getName().equals('text')}">
 										 ---- Text.
 									</c:when>
-									<c:when test="${selected_item.getUsedResourceName().equals('image')}">
+									<c:when test="${page.getUsedResource().getName().equals('image')}">
 										---- Image.
 									</c:when>
-									<c:when test="${selected_item.getUsedResourceName().equals('video')}">
+									<c:when test="${selected_item.getUsedResource().getName().equals('video')}">
 										---- Video.
 									</c:when>
 									<c:otherwise>
@@ -125,6 +125,27 @@
 											</td>											
 										</tr>
 									</c:forEach>
+									<c:out value="${selected_item.getUsedResourceList()}"></c:out>
+									<c:forEach var="resource" items="${selected_item.getUsedResourceList()}">
+										<tr>
+											<td class="first_col">
+												<c:out value="${resource.getName()}"></c:out>
+											</td>											
+											<td class="second_col">
+<!-- 												Empty... -->
+											</td>
+										</tr>
+										<tr>
+											<c:forEach var="resource_attribute" items="${resource.getAttributeSet()}">
+												<td class="first_col">
+													<c:out value="${resource_attribute}"></c:out>
+												</td>											
+												<td class="second_col">
+													<c:out value="${resource.getAttributeValue(resource_attribute)}"></c:out>
+												</td>
+											</c:forEach>																						
+										</tr>
+									</c:forEach>									
 	   							</table>								
    							 </c:otherwise>
 						</c:choose>	
@@ -138,7 +159,7 @@
 								<c:set var="isDisabled" scope="request" value="disabled"/>
 							</c:when>
 							<c:otherwise>
-								<c:set var="isDisabled" scope="request" value="dfdf"/>
+								<c:set var="isDisabled" scope="request" value=""/>
 							</c:otherwise>
 						</c:choose>
 						<select name="resource" id="resource" <c:out value="${isDisabled}"></c:out>>
@@ -150,17 +171,16 @@
 										<c:set var="first_resource" scope="application" value="${gallery.getPossiblePageResources(selected_item.getId()).get(0)}"/>
 										<c:forEach var="resource" items="${gallery.getPossiblePageResources(selected_item.getId())}">
 											<c:choose>
-												<c:when test="${resource.getName().equals(first_resource.getName())}"> 
-													<option value="<c:out value="${resource.getName()}"></c:out>" selected>
-														<c:out value="${resource.getName()}"></c:out>
-													</option>
+												<c:when test="${resource.getIsUsed()}">
+													<c:set var="resourceSelected" scope="request" value="selected"/>
 												</c:when>
 												<c:otherwise>
-													<option value="<c:out value="${resource.getName()}"></c:out>">
-														<c:out value="${resource.getName()}"></c:out>
-													</option>
+													<c:set var="resourceSelected" scope="request" value=""/>
 												</c:otherwise>
 											</c:choose>
+											<option value="<c:out value="${resource.getName()}"></c:out>" <c:out value="${resourceSelected}"></c:out>>
+												<c:out value="${resource.getName()}"></c:out>
+											</option>
 										</c:forEach>									
 								</c:otherwise>
 							</c:choose>

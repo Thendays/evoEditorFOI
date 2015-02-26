@@ -199,15 +199,26 @@ public class RawPage implements IPage{
 	}
 
 	@Override
-	public String getUsedResourceName() {
-		String resourceName = "";
+	public IPageResource getUsedResource() {
+		IPageResource usedResource = null;
 		for (IPageResource resource : this.getPageResources()) {
 			if(resource.getIsUsed()){
-				resourceName = resource.getName();
+				usedResource = resource.clone();
 				break;
 			}
 		}
-		return resourceName;
+		return usedResource;
+	}
+
+	@Override
+	public ArrayList<IPageResource> getUsedResourceList() {
+		ArrayList<IPageResource> usedResourceList = new ArrayList<IPageResource>();
+		for (IPageResource resource : this.getPageResources()) {
+			if(resource.getIsUsed()){
+				usedResourceList.add(resource.clone());
+			}
+		}
+		return usedResourceList;
 	}
 }
 
