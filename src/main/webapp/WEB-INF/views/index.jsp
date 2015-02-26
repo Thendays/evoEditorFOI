@@ -53,61 +53,59 @@
 
 			<div id="center">
 				<div id="center_main">
-					<div id="center_main_image"></div>
-					<div id="center_main_text">			
-						<c:choose>
-							<c:when test="${empty selected_item}"> 
-<!-- 							Nije odabrana nijedna stranica      -->
-							</c:when>
-							<c:otherwise>
-								<c:choose>
-									<c:when test="${page.getUsedResource().getName().equals('text')}">
-										 ---- Text.
-									</c:when>
-									<c:when test="${page.getUsedResource().getName().equals('image')}">
-										---- Image.
-									</c:when>
-									<c:when test="${selected_item.getUsedResource().getName().equals('video')}">
-										---- Video.
-									</c:when>
-									<c:otherwise>
-										NO resource found...
-									</c:otherwise>
-								</c:choose>
-								<div id="description_preview">
-									<div id="description_preview_label">Description:</div>
-									<div id="description_preview_content">TEXT</div>
-								</div>
-								<div id="confirmation_text_preview">
-									<div id="confirmation_text_preview_label">Confirmation text:</div>
-									<div id="confirmation_text_preview_content">TEXT</div>
-								</div>
-							</c:otherwise>
-						</c:choose>
-						
-						<div id="center_main_text_button">
-							<button id="play">
-								<img src="resources/images/play.png" width="30px" />
-							</button>
-						</div>
-						<div id="center_center_text">
-							<input type="text" name="instruction1"
-								placeholder="Lorem ipsum dolor sit amet"><br /> <input
-								type="text" name="instruction2"
-								placeholder="Lorem ipsum dolor sit amet">
-						</div>
-						<div id="center_main_text_button">
-							<button id="save">
-								<img src="resources/images/save.png" width="30px" />
-							</button>
-						</div>
-					</div>
+					<c:choose>
+						<c:when test="${empty selected_item}"> 
+<!-- 							No page selected      -->
+						</c:when>
+						<c:otherwise>
+							<c:choose>
+								<c:when test="${selected_item.getUsedResource().getName().equals('text')}">
+									<div id="text_preview">
+										--- text ---
+										<c:out value="${selected_item.getUsedResource().getContent()}"></c:out>
+									</div>
+								</c:when>
+								<c:when test="${selected_item.getUsedResource().getName().equals('image')}">
+									<div id="image_preview">
+										--- image ---
+										<img src="<c:out value="${resource_attribute}"></c:out>" alt="Page image" width="640" height="360">
+<!-- 											width="640" height="360" su dimenzije za Google glass -->
+									</div>									
+								</c:when>
+								<c:when test="${selected_item.getUsedResource().getName().equals('video')}">
+									<div id="video_preview">
+										--- video ---
+										<video width="640" height="360" controls>
+										  <source src="<c:out value="${resource_attribute}"></c:out>" type="video/mp4">
+										</video>
+									</div>									
+								</c:when>
+								<c:otherwise>
+									NO resource found...
+								</c:otherwise>
+							</c:choose>
+							<table id="attributes_preview">
+								<c:forEach var="attribute" items="${selected_item.getPageAttributeSet()}">
+									<tr>
+										<td class="attribute_name_preview">
+											<c:out value="${attribute}"></c:out>
+										</td>											
+										<td class="attribute_value_preview">
+											<div contenteditable>
+												<c:out value="${selected_item.getPageAttribute(attribute)}"></c:out>
+											</div>
+										</td>											
+									</tr>
+								</c:forEach>
+							</table>
+						</c:otherwise>
+					</c:choose>						
 				</div>
 				<div id="center_main_info" style="margin-top: 90px;">
 					<div class="first_half half table">
 						<c:choose>
 							<c:when test="${empty selected_item}">
-								<!-- 	Nije odabrana stranica      -->
+								<!-- 	No page selected      -->
 							</c:when>							
 							<c:otherwise>
 								<table id="attributes">
