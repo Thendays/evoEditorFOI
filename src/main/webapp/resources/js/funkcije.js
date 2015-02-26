@@ -280,6 +280,7 @@ $(document).on("change", "#resource", function() {
 			$("#attributes .resourceAttributes").remove();
 		}
 		});
+	refresh();
 	});
 
 $(document).on("click", "#add_attr", function() {
