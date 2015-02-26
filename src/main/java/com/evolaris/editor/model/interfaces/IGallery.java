@@ -150,4 +150,10 @@ public interface IGallery {
 	 * @return
 	 */
 	public ArrayList<IPageResource> getPossiblePageResources(UUID pageUUID);
+	
+	/**
+	 * Returns the number of existing pages
+	 * @return
+	 */
+	public int getPageCount();
 }

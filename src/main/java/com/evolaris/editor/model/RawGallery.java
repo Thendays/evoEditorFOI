@@ -337,4 +337,9 @@ public class RawGallery implements IGallery{
 		IPage page = findPageByID(pageUUID);
 		return page.getPageResources();
 	}
+
+	@Override
+	public int getPageCount() {
+		return pageList.size();
+	}
 }

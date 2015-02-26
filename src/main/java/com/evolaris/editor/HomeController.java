@@ -67,7 +67,7 @@ public class HomeController {
 		log.info("PRVO UÈITAVANJE");
 		context = new ClassPathXmlApplicationContext("gallery.xml");
 		gallery = context.getBean("gallery", RawGallery.class);
-		selectedItemUUID = gallery.getID();
+		selectedItemUUID = null;//gallery.getID();
 		model.addAttribute("gallery", gallery);
 		model.addAttribute("galleryID", gallery.getID());
 		model.addAttribute("selectedItemUUID", selectedItemUUID);
@@ -102,6 +102,9 @@ public class HomeController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void deletePage(@RequestParam("pageid") UUID pageId) {
 		gallery.deletePage(pageId);
+		if(gallery.getPageCount() <= 0){
+			selectedItemUUID = null;
+		}
 	}
 	
 	@RequestMapping(value = "/pageup", method = RequestMethod.GET)
@@ -120,7 +123,7 @@ public class HomeController {
 	@ResponseBody
 	public void changeResource(@RequestParam("pageid") UUID pageId,
 							   @RequestParam("resource") String usedResource) {
-		if (usedResource != "") {
+		if (usedResource != "" || usedResource != null) {
 			gallery.changePageResourceToUsed(pageId, usedResource.toLowerCase());
 		} 
 	}
