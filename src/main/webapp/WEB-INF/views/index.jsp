@@ -127,7 +127,6 @@
 											</td>											
 										</tr>
 									</c:forEach>
-									<c:out value="${selected_item.getUsedResourceList()}"></c:out>
 									<c:forEach var="resource" items="${selected_item.getUsedResourceList()}">
 										<tr>
 											<td class="first_col">
