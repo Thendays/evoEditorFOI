@@ -54,7 +54,6 @@ function deletePage() {
 
 function movePageUp(e) {
 	var uuid = $(e).closest(".pages").attr("id");
-	alert("UUID: " + uuid);
 	$.ajax({
 		url: 'pageup.html',
 		data: {pageid: uuid},
@@ -66,7 +65,6 @@ function movePageUp(e) {
 
 function movePageDown(e) {
 	var uuid = $(e).closest(".pages").attr("id");
-	alert("UUID: " + uuid);
 	$.ajax({
 		url: 'pagedown.html',
 		data: {pageid: uuid},
@@ -245,12 +243,14 @@ function attachEvents() {
 			});
 		
 		$.each($(this).find(":input"), function() {
-			$(this).on("focus", function() {
+			$(this).on("click", function(e) {
+				$(this).focus();
 				this.oldvalue = this.value;
+				return false;
 			});
 			
 			$(this).change(function() {
-				movePage(this, null);
+				changePageOrder(this);
 			});
 		});
 	});
