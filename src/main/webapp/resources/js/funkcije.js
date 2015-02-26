@@ -134,9 +134,9 @@ function chngTransparency(e) {
 	}
 }
 
-function selectPage2(e) {
+function selectPage(e) {
 	var pages = $("#left").find(".selected");
-	var uuid = null;	
+	var uuid = $("#left").attr("data-id");	
 		
 	if ($(this).attr("id") !== "left")
 		uuid = $(this).attr("id");
@@ -151,74 +151,74 @@ function selectPage2(e) {
 	refresh();
 }
 
-function selectPage(e) {
-	
-	var pages = $("#left").find(".selected");
-	var uuid = null;
-	
-	if ($("#left").hasClass("selected"))
-		$("#left").removeClass("selected");
-	
-	$.each(pages, function(idx, val) {
-		if ($(this).hasClass("selected"))
-			$(this).removeClass("selected");
-	});
-	
-	$(this).addClass("selected");
-	
-	if ($(this).attr("id") !== "left")
-		uuid = $(this).attr("id");
-	e.stopPropagation();
-	
-	if ($("#left").hasClass("selected")) {
-		$('#resource option[value=""]').attr('selected','selected');
-		$("#attributes").find("tr:gt(0)").remove();
-		$("#resource").prop('disabled', 'disabled');
-		$("#add_attr").prop('disabled', 'disabled');
-		$("#uploadFile input").prop('disabled', 'disabled');
-	} else {
-		$("#resource").prop('disabled', false);
-		$("#add_attr").prop('disabled', false);
-		$("#uploadFile input").prop('disabled', false);
-		$("#page").attr("value", uuid);
-	}
-	
-	if (uuid !== null) {
-		$.ajax({
-			url: 'checkpageattributes.html',
-			data: {pageid: uuid},
-			dataType: "json",
-			success: function(data) {
-				console.log(data);
-				$("#attributes").find("tr:gt(0)").remove();
-				$.each(data.pageAttributes, function(k, v) {
-					$("#attributes").append('<tr><td class="first_col">' + k 
-							+ '</td><td class="second_col"><div contenteditable>' + v + '</td></tr>');
-				});
-				
-				if (data.resourceUsed) {
-					$.each(data.resourceUsed, function(k, v) {
-						if (typeof v === "object") {
-							$.each(data.resourceUsed.attributes, function(k, v) {
-								if (k === "Content")
-									$("#attributes").append('<tr class="resourceAttributes"><td class="first_col">' + k 
-											+ '</td><td class="second_col"><div contenteditable>' + v + '</td></tr>');
-								else
-									$("#attributes").append('<tr><td class="first_col">' + k 
-										+ '</td><td class="second_col">' + v + '</td></tr>');
-							});
-						} else {
-							$("#attributes").append('<tr><td class="first_col">' + k 
-									+ '</td><td class="second_col">' + v + '</td></tr>');
-						}
-					});
-					$('#resource option[value="' + data.resourceUsed.Resource + '"]').attr('selected','selected');
-				} else
-					$('#resource option[value=""]').attr('selected','selected');
-			}
-		});
-	}
-}
+//function selectPage(e) {
+//	
+//	var pages = $("#left").find(".selected");
+//	var uuid = null;
+//	
+//	if ($("#left").hasClass("selected"))
+//		$("#left").removeClass("selected");
+//	
+//	$.each(pages, function(idx, val) {
+//		if ($(this).hasClass("selected"))
+//			$(this).removeClass("selected");
+//	});
+//	
+//	$(this).addClass("selected");
+//	
+//	if ($(this).attr("id") !== "left")
+//		uuid = $(this).attr("id");
+//	e.stopPropagation();
+//	
+//	if ($("#left").hasClass("selected")) {
+//		$('#resource option[value=""]').attr('selected','selected');
+//		$("#attributes").find("tr:gt(0)").remove();
+//		$("#resource").prop('disabled', 'disabled');
+//		$("#add_attr").prop('disabled', 'disabled');
+//		$("#uploadFile input").prop('disabled', 'disabled');
+//	} else {
+//		$("#resource").prop('disabled', false);
+//		$("#add_attr").prop('disabled', false);
+//		$("#uploadFile input").prop('disabled', false);
+//		$("#page").attr("value", uuid);
+//	}
+//	
+//	if (uuid !== null) {
+//		$.ajax({
+//			url: 'checkpageattributes.html',
+//			data: {pageid: uuid},
+//			dataType: "json",
+//			success: function(data) {
+//				console.log(data);
+//				$("#attributes").find("tr:gt(0)").remove();
+//				$.each(data.pageAttributes, function(k, v) {
+//					$("#attributes").append('<tr><td class="first_col">' + k 
+//							+ '</td><td class="second_col"><div contenteditable>' + v + '</td></tr>');
+//				});
+//				
+//				if (data.resourceUsed) {
+//					$.each(data.resourceUsed, function(k, v) {
+//						if (typeof v === "object") {
+//							$.each(data.resourceUsed.attributes, function(k, v) {
+//								if (k === "Content")
+//									$("#attributes").append('<tr class="resourceAttributes"><td class="first_col">' + k 
+//											+ '</td><td class="second_col"><div contenteditable>' + v + '</td></tr>');
+//								else
+//									$("#attributes").append('<tr><td class="first_col">' + k 
+//										+ '</td><td class="second_col">' + v + '</td></tr>');
+//							});
+//						} else {
+//							$("#attributes").append('<tr><td class="first_col">' + k 
+//									+ '</td><td class="second_col">' + v + '</td></tr>');
+//						}
+//					});
+//					$('#resource option[value="' + data.resourceUsed.Resource + '"]').attr('selected','selected');
+//				} else
+//					$('#resource option[value=""]').attr('selected','selected');
+//			}
+//		});
+//	}
+//}
 
 function attachEvents() {
 	$('.pages').each(function(i) { 

@@ -14,10 +14,10 @@
 		</c:choose>	
 		<c:choose>			
 			<c:when test="${page.getParentID() != gallery.getID() }">							
-	    		<div class="pages<c:out value="${isSelected}"></c:out>" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage2.call(this, event)" data-parentid="<c:out value="${page.getParentID()}"></c:out>" >
+	    		<div class="pages<c:out value="${isSelected}"></c:out>" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage.call(this, event)" data-parentid="<c:out value="${page.getParentID()}"></c:out>" >
 			</c:when>
 			<c:otherwise>
-				<div class="pages<c:out value="${isSelected}"></c:out>" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage2.call(this, event)" data-parentid="<c:out value="${gallery.getID()}"></c:out>" style="zoom: 1;">
+				<div class="pages<c:out value="${isSelected}"></c:out>" id="<c:out value="${page.getId()}"></c:out>" onclick="selectPage.call(this, event)" data-parentid="<c:out value="${gallery.getID()}"></c:out>" style="zoom: 1;">
 			</c:otherwise>
 		</c:choose>
 		<div class="delete_slide">
