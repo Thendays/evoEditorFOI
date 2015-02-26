@@ -14,8 +14,8 @@
 <script src="resources/js/jquery-1.10.2.js"></script>
 <script src="resources/js/jquery-ui.js"></script>
 <script src="resources/js/funkcije.js"></script>
-<script src="resources/js/js-webshim/minified/polyfiller.js"></script>
-<script src="resources/js/modernizr.js"></script>
+<!-- <script src="resources/js/js-webshim/minified/polyfiller.js"></script> -->
+<!-- <script src="resources/js/modernizr.js"></script> -->
 
 <script type="text/javascript"
 	src="resources/js/jquery.fullscreen-0.4.2.min.js"></script>
