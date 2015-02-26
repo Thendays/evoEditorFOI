@@ -116,13 +116,11 @@
 										<th class="second_col">Value</th>
 									</tr>
 									<c:forEach var="attribute" items="${selected_item.getPageAttributeSet()}">
-										<tr class="first_col">
-											<td>
+										<tr>
+											<td class="first_col">
 												<c:out value="${attribute}"></c:out>
 											</td>											
-										</tr>
-										<tr class="second_col">
-											<td>
+											<td class="second_col">
 												<c:out value="${selected_item.getPageAttribute(attribute)}"></c:out>
 											</td>											
 										</tr>
