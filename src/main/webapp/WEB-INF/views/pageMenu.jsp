@@ -2,8 +2,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:forEach var="page" items="${gallery.getChildPageList(parentPage)}">
+		<br/>
 		<c:choose>
-			<c:when test="${page.getId() == selected_page.getId()}"> 
+			<c:when test="${page.getId() == selected_item.getId()}"> 
 <!-- 			selected page definirano u index.jsp linija: 62 -->
 				<c:set var="isSelected" scope="request" value=" selected"/>
 			</c:when>

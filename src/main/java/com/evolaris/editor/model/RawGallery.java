@@ -299,7 +299,7 @@ public class RawGallery implements IGallery{
 		pageList.remove(page);
 	}
 
-	public ArrayList<IPageResource> getPossiblePageResources() {
+	private ArrayList<IPageResource> getPossiblePageResources() {
 		return this.pageResourceList;
 	}
     
@@ -331,5 +331,10 @@ public class RawGallery implements IGallery{
 	public boolean isGallerySet() {
 		return this.galleryDefined;
 	}
-}
 
+	@Override
+	public ArrayList<IPageResource> getPossiblePageResources(UUID pageUUID) {
+		IPage page = findPageByID(pageUUID);
+		return page.getPageResources();
+	}
+}

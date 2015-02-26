@@ -58,7 +58,7 @@ public class HomeController {
 	private static final String DOCUMENT_TYPE_DEFINITION = "documentation.dtd";
 	private static final int BUFFER_SIZE = 4096;
 	
-	private UUID selectedPageUUID;
+	private UUID selectedItemUUID;
 	
 	static Log log = LogFactory.getLog(HomeController.class.getName());
 	
@@ -67,10 +67,10 @@ public class HomeController {
 		log.info("PRVO UÈITAVANJE");
 		context = new ClassPathXmlApplicationContext("gallery.xml");
 		gallery = context.getBean("gallery", RawGallery.class);
-		selectedPageUUID = gallery.getID();
+		selectedItemUUID = gallery.getID();
 		model.addAttribute("gallery", gallery);
 		model.addAttribute("galleryID", gallery.getID());
-		model.addAttribute("selectedPageUUID", selectedPageUUID);
+		model.addAttribute("selectedItemUUID", selectedItemUUID);
 		return "index";
 	}
 	
@@ -79,6 +79,7 @@ public class HomeController {
 	public String refresh(Model model) {
 		model.addAttribute("gallery", gallery);
 		model.addAttribute("galleryID", gallery.getID());
+		model.addAttribute("selectedItemUUID", this.selectedItemUUID);
 		return "index";
 	}
 	
@@ -87,11 +88,10 @@ public class HomeController {
 	public void selectPage(@RequestParam("pageid") UUID pageId, Model model) {
 		log.info("page ID = " + pageId);
 		if(pageId != null){
-			this.selectedPageUUID = pageId;
+			this.selectedItemUUID = pageId;
 		}else{
-			this.selectedPageUUID = gallery.getID();
-		}
-		model.addAttribute("selectedPageUUID", this.selectedPageUUID);
+			this.selectedItemUUID = gallery.getID();
+		}		
 	}
 	
 	@RequestMapping(value = "/addpage", method = RequestMethod.GET)

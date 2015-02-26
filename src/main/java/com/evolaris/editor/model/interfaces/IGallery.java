@@ -142,5 +142,12 @@ public interface IGallery {
 	 * Set attibute set to current gallery.
 	 * @param galleryAttributeMap
 	 */
-	public void setGalleryAttributeMap(HashMap<String, String> galleryAttributeMap);	
+	public void setGalleryAttributeMap(HashMap<String, String> galleryAttributeMap);
+	
+	/**
+	 * Return a list of possible resources the given page can have
+	 * @param pageUUID
+	 * @return
+	 */
+	public ArrayList<IPageResource> getPossiblePageResources(UUID pageUUID);
 }

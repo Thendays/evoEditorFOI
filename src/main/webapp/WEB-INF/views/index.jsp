@@ -57,24 +57,22 @@
 			<div id="center">
 				<div id="center_main">
 					<div id="center_main_image"></div>
-					<div id="center_main_text">
-						<c:out value="${selectedPageUUID}"></c:out>
-						<c:set var="selected_page" scope="request" value="${gallery.findPageByID(selectedPageUUID)}"/>
-						<c:out value="${selectedPageUUID}"></c:out>
+					<div id="center_main_text">						
+						<c:set var="selected_item" scope="application" value="${gallery.findPageByID(selectedItemUUID)}"/>
 						<c:choose>
-							<c:when test="${empty selected_page}"> 
+							<c:when test="${empty selected_item}"> 
 <!-- 							Nije odabrana nijedna stranica      -->
 							</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${selected_page.getUsedResourceName().equals('text')}">
-										Text.
+									<c:when test="${selected_item.getUsedResourceName().equals('text')}">
+										 ---- Text.
 									</c:when>
-									<c:when test="${selected_page.getUsedResourceName().equals('image')}">
-										Image.
+									<c:when test="${selected_item.getUsedResourceName().equals('image')}">
+										---- Image.
 									</c:when>
-									<c:when test="${selected_page.getUsedResourceName().equals('video')}">
-										Video.
+									<c:when test="${selected_item.getUsedResourceName().equals('video')}">
+										---- Video.
 									</c:when>
 									<c:otherwise>
 										NO resource found...
@@ -112,37 +110,66 @@
 				<div id="center_main_info" style="margin-top: 90px;">
 					<div class="first_half half table">
 						<c:choose>
-							<c:when test="${empty selected_page}"> 
-<!-- 							Nije odabrana nijedna stranica      -->
+							<c:when test="${empty selected_item}">
+								<!-- 	Nije odabrana stranica      -->
 							</c:when>
+							<c:when test="${selected_item.getId() == galleryID}">
+								<!-- 	Nije odabrana stranica      -->
+							</c:when>							
 							<c:otherwise>
 								<table id="attributes">
 									<tr>
 										<th class="first_col">Attribute</th>
 										<th class="second_col">Value</th>
 									</tr>
-									<c:forEach var="attribute" items="${selected_page.getPageAttributeSet()}">
+									<c:forEach var="attribute" items="${selected_item.getPageAttributeSet()}">
 										<tr class="first_col">
-											<c:out value="${attribute}"></c:out>
+											<td>
+												<c:out value="${attribute}"></c:out>
+											</td>											
 										</tr>
 										<tr class="second_col">
-											<c:out value="${selected_page.getPageAttribute(attribute)}"></c:out>
+											<td>
+												<c:out value="${selected_item.getPageAttribute(attribute)}"></c:out>
+											</td>											
 										</tr>
 									</c:forEach>
-	   							</table>
+	   							</table>								
    							 </c:otherwise>
 						</c:choose>	
 					</div>
-
 					<div class="second_half half">
 						<div class="half_text" style="float: left;">
 							Resource<br />
 						</div>
-						<select name="resource" id="resource" disabled>
-							<c:forEach var="resource" items="${gallery.getPossiblePageResources()}">
-								
-							</c:forEach>
-						</select> <br />
+						<c:choose>
+							<c:when test="${empty selected_item}">
+								<!-- 	Nije odabrana stranica      -->
+							</c:when>
+							<c:when test="${selected_item.getId() == galleryID}">
+								<!-- 	Nije odabrana stranica      -->
+							</c:when>						
+							<c:otherwise>
+								<select name="resource" id="resource" disabled>
+									<c:set var="first_resource" scope="request" value="${gallery.getPossiblePageResources(selected_item.getId()).get(0)}"/>
+									<c:forEach var="resource" items="${gallery.getPossiblePageResources(selected_item.getId())}">
+										<c:choose>
+											<c:when test="${resource.getName().equals(first_resource.getName())}">
+												<option value="<c:out value="${resource.getName()}"></c:out>" selected>
+													<c:out value="${resource.getName()}"></c:out>
+												</option>
+											</c:when>
+											<c:otherwise>
+												<option value="<c:out value="${resource.getName()}"></c:out>">
+													<c:out value="${resource.getName()}"></c:out>
+												</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</c:otherwise>
+						</c:choose>						
+						<br />
 						<br />
 						<form method="POST" action="" enctype="multipart/form-data"
 							id="uploadFile">
