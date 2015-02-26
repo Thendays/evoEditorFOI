@@ -284,12 +284,7 @@ $(document).on("change", "#resource", function() {
 	});
 
 $(document).on("click", "#add_attr", function() {
-	var pages = $("#left .selected");
-	var uuid = null;
-	$.each(pages, function(idx, val) {
-		if ($(this).hasClass("selected") && !$(this).hasClass("gallery"))
-			uuid = $(this).attr("id");
-	});
+	var uuid = $("#left .selected").attr("id");
 	
 	var parameters = {
 			pageid: uuid
@@ -312,6 +307,7 @@ $(document).on("click", "#add_attr", function() {
 	
 	$.ajax({
 		url: 'savepageattributes.html',
+		type: 'POST',
 		data: parameters,
 			   
 		success: function(data) {

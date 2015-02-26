@@ -150,15 +150,15 @@ public class HomeController {
 		//model.addAttribute("usedResources", attributeValue)
 	}
 	
-	@RequestMapping(value = "/savepageattributes", method = RequestMethod.GET)
+	@RequestMapping(value = "/savepageattributes", method = RequestMethod.POST)
 	public @ResponseBody void savePageAttributes(@RequestParam Map<String, String> params) {
 		
 		HashMap<String, String> pageAttributes = ((RawPage)gallery.findPageByID(UUID.fromString(params.get("pageid")))).getPageAttributeMap();
 		
 		for (Map.Entry<String, String> attribute : pageAttributes.entrySet()) {
 			for (Map.Entry<String, String> parameter : params.entrySet()) {
-				if (parameter.getKey().equalsIgnoreCase(attribute.getKey())) {
-					attribute.setValue(parameter.getValue());
+				if ((parameter.getKey().replace("\n", "").replace("\t", "").replace(" ", "")).equalsIgnoreCase(attribute.getKey().replace(" ", ""))) {
+					attribute.setValue(parameter.getValue().replace("\n", "").replace("\t", ""));
 				}
 			}
 			
@@ -167,12 +167,12 @@ public class HomeController {
 					HashMap<String, String> attributeMap = ((RawPageResource)res).getAttributeMap();
 					
 					for (Map.Entry<String, String> parameter : params.entrySet()) {
-						if (parameter.getKey().equalsIgnoreCase("content")) 
-							res.setContent(parameter.getValue());
+						if ((parameter.getKey().replace("\n", "").replace("\t", "")).equalsIgnoreCase("content")) 
+							res.setContent(parameter.getValue().replace("\n", "").replace("\t", ""));
 							
 						for (Map.Entry<String, String> resAttribute : attributeMap.entrySet()) {
-							if (resAttribute.getKey().equalsIgnoreCase(parameter.getKey()))
-								res.setAttribute(resAttribute.getKey(), parameter.getValue());
+							if (resAttribute.getKey().replace(" ", "").equalsIgnoreCase(parameter.getKey().replace("\n", "").replace("\t", "")))
+								res.setAttribute(resAttribute.getKey(), parameter.getValue().replace("\n", "").replace("\t", ""));
 							}
 						}
 					}
