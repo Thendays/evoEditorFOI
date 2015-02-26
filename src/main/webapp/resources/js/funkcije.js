@@ -52,48 +52,54 @@ function deletePage() {
 	});
 }
 
-function movePage(e, direction) {
+function movePageUp(e) {
 	var uuid = $(e).closest(".pages").attr("id");
-	if (direction === null) {
-		if (e.oldvalue > e.value) {
-			for (var i = (e.oldvalue - e.value); i>0; i--) {
-				$.ajax({
-					url: 'pageup.html',
-					data: {pageid: uuid},
-					success: function(data) {
-						refresh();
-					}
-				});
-			}
-		} else if (e.value > e.oldvalue) {
-			for (var i = (e.value - e.oldvalue); i>0; i--) {
-				$.ajax({
-					url: 'pagedown.html',
-					data: {pageid: uuid},
-					success: function(data) {
-						refresh();
+	alert("UUID: " + uuid);
+	$.ajax({
+		url: 'pageup.html',
+		data: {pageid: uuid},
+		success: function(data) {
+			refresh();
+		}
+	});
+}
+
+function movePageDown(e) {
+	var uuid = $(e).closest(".pages").attr("id");
+	alert("UUID: " + uuid);
+	$.ajax({
+		url: 'pagedown.html',
+		data: {pageid: uuid},
+		success: function(data) {
+			refresh();
+		}
+	});
+}
+
+function changePageOrder(e) {
+	var uuid = $(e).closest(".pages").attr("id");
+	if (e.oldvalue > e.value) {
+		for (var i = (e.oldvalue - e.value); i>0; i--) {
+			$.ajax({
+				url: 'pageup.html',
+				data: {pageid: uuid},
+				success: function(data) {
+					refresh();
+				}
+			});
+		}
+	} else if (e.value > e.oldvalue) {
+		for (var i = (e.value - e.oldvalue); i>0; i--) {
+			$.ajax({
+				url: 'pagedown.html',
+				data: {pageid: uuid},
+				success: function(data) {
+					refresh();
 					}
 				});
 			}
 		}
-	} else if(direction === "up") {
-		$.ajax({
-			url: 'pageup.html',
-			data: {pageid: uuid},
-			success: function(data) {
-				refresh();
-			}
-		});
-	} else if(direction === "down") {
-		$.ajax({
-			url: 'pagedown.html',
-			data: {pageid: uuid},
-			success: function(data) {
-				refresh();
-			}
-		});
 	}
-}
 
 /*fullscreen*/
 
@@ -228,13 +234,13 @@ function attachEvents() {
 		
 		$.each($(this).find(":button.up_1"), function() {
 			$(this).click(function() {
-				movePage(this, "up");
+				movePageUp(this);
 				});
 			});
 		
 		$.each($(this).find(":button.down_1"), function() {
 			$(this).click(function() {
-				movePage(this, "down");
+				movePageDown(this);
 				});
 			});
 		
