@@ -26,10 +26,10 @@
 	<c:set var="selected_item" scope="application" value="${gallery.findPageByID(selectedItemUUID)}"/>
 	<div id="container">
 		<header>
-			<button id="add_slide" onclick="addPage()">
+			<button id="add_slide">
 				<img src="resources/images/plus.png" width="12px" />&nbsp;Add new page
 			</button>
-			<button id="add_subPage" onclick="addPage()">
+			<button id="add_subPage">
 				<img src="resources/images/preview_eye.png" width="12px" />&nbsp;Add new subpage
 			</button>
 			<button id="undo">

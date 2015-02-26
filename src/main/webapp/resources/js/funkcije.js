@@ -26,14 +26,14 @@ function refresh() {
 
 function addPage() {
 	var uuid = ($(this).attr("id") === "add_slide")?$("#left").attr("data-id"):$("#left .selected").attr("id");
-	
-	$.ajax({
-		url: 'addpage.html',
-		data: {parentid: uuid},
-		success: function(data) {
-			refresh()
-		}
-	});
+	if (uuid !== undefined)
+		$.ajax({
+			url: 'addpage.html',
+			data: {parentid: uuid},
+			success: function(data) {
+				refresh()
+			}
+		});
 }
 
 function deletePage() {
