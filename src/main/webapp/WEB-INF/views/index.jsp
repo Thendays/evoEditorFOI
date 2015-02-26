@@ -23,7 +23,7 @@
 </head>
 
 <body>
-
+	<c:set var="selected_item" scope="application" value="${gallery.findPageByID(selectedItemUUID)}"/>
 	<div id="container">
 		<header>
 			<button id="add_slide" onclick="addPage()">
@@ -50,15 +50,14 @@
 			<div id="left" class="gallery"
 				data-id="<c:out value="${galleryID}"/>"
 				onclick="selectPage.call(this, event)">
-				<c:set var="parentPage" value="${galleryID}" scope="request"/>
-				<jsp:include page="pageMenu.jsp"/>
+					<c:set var="parentPage" value="${galleryID}" scope="application"/>
+					<jsp:include page="pageMenu.jsp"/>
 			</div>
 
 			<div id="center">
 				<div id="center_main">
 					<div id="center_main_image"></div>
-					<div id="center_main_text">						
-						<c:set var="selected_item" scope="application" value="${gallery.findPageByID(selectedItemUUID)}"/>
+					<div id="center_main_text">			
 						<c:choose>
 							<c:when test="${empty selected_item}"> 
 <!-- 							Nije odabrana nijedna stranica      -->
@@ -143,6 +142,14 @@
 							Resource<br />
 						</div>
 						<c:choose>
+							<c:when test="${galleryID == selected_item.getId()}"> 
+								<c:set var="isDisabled" scope="request" value="disabled"/>
+							</c:when>
+							<c:otherwise>
+								<c:set var="isDisabled" scope="request" value="dfdf"/>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
 							<c:when test="${empty selected_item}">
 							<!-- 	Nije odabrana stranica      -->
 							</c:when>
@@ -150,11 +157,11 @@
 							<!-- 	Nije odabrana stranica      -->
 							</c:when>						
 							<c:otherwise>
-								<select name="resource" id="resource" disabled>
-									<c:set var="first_resource" scope="request" value="${gallery.getPossiblePageResources(selected_item.getId()).get(0)}"/>
+								<select name="resource" id="resource" <c:out value="${isDisabled}"></c:out>>
+									<c:set var="first_resource" scope="application" value="${gallery.getPossiblePageResources(selected_item.getId()).get(0)}"/>
 									<c:forEach var="resource" items="${gallery.getPossiblePageResources(selected_item.getId())}">
 										<c:choose>
-											<c:when test="${resource.getName().equals(first_resource.getName())}">
+											<c:when test="${resource.getName().equals(first_resource.getName())}"> 
 												<option value="<c:out value="${resource.getName()}"></c:out>" selected>
 													<c:out value="${resource.getName()}"></c:out>
 												</option>
@@ -173,9 +180,9 @@
 						<br />
 						<form method="POST" action="" enctype="multipart/form-data"
 							id="uploadFile">
-							<input type="file" name="file" id="upload" disabled> <input
-								type="text" name="page" id="page" hidden> <input
-								type="submit" value="Upload" id="cloud_2" disabled>
+							<input type="file" name="file" id="upload" <c:out value="${isDisabled}"></c:out>>
+							<input type="text" name="page" id="page" hidden>
+							<input type="submit" value="Upload" id="cloud_2" <c:out value="${isDisabled}"></c:out>>
 						</form>
 						<button id="add_attr" disabled>
 							<img src="resources/images/save.png" width="13px" />
