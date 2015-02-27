@@ -32,10 +32,10 @@
 			<button id="add_subPage">
 				<img src="resources/images/preview_eye.png" width="12px" />&nbsp;Add new subpage
 			</button>
-			<button id="undo">
+			<button id="prev" onclick="selectPrevPage.call(this, event)">
 				<img src="resources/images/undo.png" width="12px" />
 			</button>
-			<button id="redo">
+			<button id="next" onclick="selectNextPage.call(this, event)">
 				<img src="resources/images/redo.png" width="12px" />
 			</button>
 

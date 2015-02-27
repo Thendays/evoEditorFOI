@@ -133,12 +133,14 @@ function chngTransparency(e) {
 	}
 }
 
-function selectPage(e) {
+function selectPage(e, obj) {
 	var uuid = null;	
 		
 	if ($(this).attr("class") === "pages")
 		uuid = $(this).attr("id");
-	e.stopPropagation();
+	
+	if (obj)
+		uuid = obj.attr("id")
 	
 	$.ajax({
 		url: 'pageselected.html',
@@ -147,6 +149,16 @@ function selectPage(e) {
 			refresh();
 		}
 	});
+}
+
+function selectPrevPage(e) {
+	var obj = $("#left").find(".selected").prevAll("div.pages:first");
+	selectPage(e, obj);	
+}
+
+function selectNextPage(e) {
+	var obj = $("#left").find(".selected").nextAll("div.pages:first");
+	selectPage(e, obj);	
 }
 
 //function selectPage(e) {
@@ -311,6 +323,7 @@ $(document).on("click", "#add_attr", function() {
 		data: parameters,
 			   
 		success: function(data) {
+			refresh();
 		}
 	});
 });
