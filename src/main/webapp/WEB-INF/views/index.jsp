@@ -68,14 +68,14 @@
 								<c:when test="${selected_item.getUsedResource().getName().equals('image')}">
 									<div id="image_preview">
 										--- image ---
-										<img src="<c:out value="${resource_attribute}"></c:out>" alt="Page image" width="640" height="360">
-<!-- 											width="640" height="360" su dimenzije za Google glass -->
+										<img src="<c:out value="${resource_attribute}"></c:out>" alt="Page image" width="320" height="180">
+<!-- 											width="320" height="180" su dimenzije za Google glass -->
 									</div>									
 								</c:when>
 								<c:when test="${selected_item.getUsedResource().getName().equals('video')}">
 									<div id="video_preview">
 										--- video ---
-										<video width="640" height="360" controls>
+										<video width="320" height="180" controls>
 										  <source src="<c:out value="${resource_attribute}"></c:out>" type="video/mp4">
 										</video>
 									</div>									
@@ -198,7 +198,7 @@
 						</select>					
 						<br />
 						<br />
-						<form method="POST" action="" enctype="multipart/form-data"
+						<form method="POST" action="uploadFile" enctype="multipart/form-data"
 							id="uploadFile">
 							<input type="file" name="file" id="upload" <c:out value="${isDisabled}"></c:out>>
 							<input type="text" name="page" id="page" hidden>

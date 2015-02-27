@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,30 +15,26 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.InputSource;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.evolaris.editor.controller.XMLGenerator;
 import com.evolaris.editor.model.RawGallery;
 import com.evolaris.editor.model.RawPage;
 import com.evolaris.editor.model.RawPageResource;
-import com.evolaris.editor.model.VideoPageResource;
 import com.evolaris.editor.model.interfaces.IGallery;
 import com.evolaris.editor.model.interfaces.IPage;
 import com.evolaris.editor.model.interfaces.IPageResource;
@@ -56,6 +49,7 @@ public class HomeController {
 	
 	private ApplicationContext context;
 	private static final String DOCUMENT_TYPE_DEFINITION = "documentation.dtd";
+	private static final String USER_RESOURCES_DIRECTORY = "userResources";
 	private static final int BUFFER_SIZE = 4096;
 	
 	private UUID selectedItemUUID;
@@ -68,10 +62,11 @@ public class HomeController {
 		context = new ClassPathXmlApplicationContext("gallery.xml");
 		gallery = context.getBean("gallery", RawGallery.class);
 		selectedItemUUID = null;//gallery.getID();
-		model.addAttribute("gallery", gallery);
-		model.addAttribute("galleryID", gallery.getID());
-		model.addAttribute("selectedItemUUID", selectedItemUUID);
-		return "index";
+		return refresh(model);
+//		model.addAttribute("gallery", gallery);
+//		model.addAttribute("galleryID", gallery.getID());
+//		model.addAttribute("selectedItemUUID", selectedItemUUID);
+//		return "index";
 	}
 	
 	@RequestMapping(value = "/refr", method = RequestMethod.GET, headers="Accept=*/*")
@@ -180,35 +175,29 @@ public class HomeController {
 			}
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String uploadFileHandler(Model model, 
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public String uploadFileHandler(Model model, HttpServletRequest request,
 									@RequestParam("file") MultipartFile file,
 									@RequestParam("page") UUID pageId) {
 		if (!file.isEmpty()) {
-			try {
-				byte[] bytes = file.getBytes();
-				
-				String rootPath = System.getProperty("catalina.home");
-                File dir = new File(rootPath + File.separator + "resources");
-                if (!dir.exists())
-                    dir.mkdirs();
-                String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'), file.getOriginalFilename().length());
-                File serverFile = new File(dir.getAbsolutePath()
-                        + File.separator 
-                        + String.format("%s", RandomStringUtils.randomAlphanumeric(8) 
-                        		+ ext));
-                
-                String fileName = serverFile.getAbsolutePath();
-                fileName = (fileName.substring(fileName.indexOf("resources"), fileName.length())).replace("\\", "\\\\");
+				//String rootPath = System.getProperty("catalina.home");
+                File dir = new File(USER_RESOURCES_DIRECTORY);
+                if (!dir.exists()){
+                	dir.mkdirs();
+                }                 
+                String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+                File serverFile = new File(dir + file.getOriginalFilename());
                 
                 for (IPageResource res : gallery.findPageByID(pageId).getPageResources()) {
                 	if (res.getIsUsed()) {
-                		res.setAttribute("Path", fileName);
+                		res.setAttribute("Path", file.getOriginalFilename());
                 	}
                 }
                 
+            try {                	
                 BufferedOutputStream stream = new BufferedOutputStream(
                         new FileOutputStream(serverFile));
+                byte[] bytes = file.getBytes();
                 stream.write(bytes);
                 stream.close();
 			} catch (Exception e) {
@@ -218,9 +207,7 @@ public class HomeController {
             System.out.println("You failed to upload " + file.getName()
                     + " because the file was empty.");
         }
-		model.addAttribute("gallery", gallery);
-		model.addAttribute("galleryID", gallery.getID());
-		return "index";
+		return refresh(model);
 	}
 	
 	@RequestMapping(value = "/export", method = RequestMethod.GET)
