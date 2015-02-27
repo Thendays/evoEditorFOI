@@ -101,7 +101,7 @@
 						</c:otherwise>
 					</c:choose>						
 				</div>
-				<div id="center_main_info" style="margin-top: 90px;">
+				<div id="center_main_info">
 					<div class="first_half half table">
 						<c:choose>
 							<c:when test="${empty selected_item}">
