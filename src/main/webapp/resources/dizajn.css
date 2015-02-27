@@ -123,7 +123,6 @@ header{
 	width: 100%;
 	height: 300px;
 	margin: 2% 2% 2% 0%;
-	border: 1px solid #000;
 }
 #center #center_main #center_main_image {
 	border: 1px solid #000;
@@ -167,7 +166,6 @@ header{
 
 .half {
     float: left;
-    height: 120px;
     padding-left: 20px;
     padding-top: 8px;
 }
