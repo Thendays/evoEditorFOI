@@ -124,6 +124,20 @@ header{
 	height: 300px;
 	margin: 2% 2% 2% 0%;
 }
+
+#image_preview img {
+	display: block;
+	margin-left: auto;
+  	margin-right: auto;
+}
+
+#video_preview video {
+	display: block;
+	margin-left: auto;
+  	margin-right: auto;
+}
+
+
 #center #center_main #center_main_image {
 	border: 1px solid #000;
     height: 143px;
